@@ -17,48 +17,20 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSL_SCALE_H
-#define QSL_SCALE_H
+#include <QtWidgets>
+#include "qsl_chartitem.h"
 
-#include "qsl_global.h"
-
-QT_BEGIN_NAMESPACE
-class QPainter;
-QT_END_NAMESPACE
-
-class QslChart;
-class QslPlotable;
-
-class QSL_API QslScale : public QObject
+int main(int argc, char *argv[])
 {
-    Q_OBJECT
+    QApplication app(argc,argv);
 
-public:
+    QslChartItem *item = new QslChartItem;
+    QGraphicsScene scene;
+    scene.addItem(item);
 
-    QslScale(const QString &name, QslChart *chart);
+    QGraphicsView view;
+    view.setScene(&scene);
+    view.show();
 
-    virtual ~QslScale();
-
-    QString name() const;
-
-    QslChart* chart() const;
-
-    void add(QslPlotable *plot);
-
-    QslPlotable* plotable(const QString &name) const;
-
-    QList<QslPlotable*> plotableList() const;
-
-    virtual void paint(QPainter *painter, const QRect &rect);
-
-public slots:
-
-    virtual void update() = 0;
-
-private:
-
-    QSL_PRIVATE_DECLS
-    Q_DISABLE_COPY(QslScale)
-};
-
-#endif // QSL_SCALE_H
+    return app.exec();
+}

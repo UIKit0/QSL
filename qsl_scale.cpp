@@ -18,28 +18,82 @@
  */
 
 #include "qsl_scale.h"
+#include "qsl_chart.h"
+#include "qsl_plotable.h"
 
-QslScale::QslScale(QObject *parent) : QObject(parent)
+
+class QslScale::Private
 {
+public:
 
+    QString name;
+    QslChart *chart;
+    QList<QslPlotable*> plotables;
+
+};
+
+
+QslScale::QslScale(const QString &name,
+                   QslChart *chart) :
+    QObject(chart),
+    m(new Private)
+{
+    m->name = name;
+    m->chart = chart;
 }
+
 
 QslScale::~QslScale()
 {
-
+    delete m;
 }
 
 
-QslScale* QslScale::scale(const QString &name) const
+QString QslScale::name() const
 {
-
+    return m->name;
 }
 
 
-QList<QslScale*> QslScale::scaleList() const;
+QslChart* QslScale::chart() const
+{
+    return m->chart;
+}
 
 
-void QslScale::add(QslScale *scale);
+void QslScale::add(QslPlotable *plot)
+{
+    m->plotables.append(plot);
+    plot->setScale(this);
+    update();
+}
 
 
-void QslScale::paint(QPainter *painter, const QRect &rect);
+QslPlotable* QslScale::plotable(const QString &name) const
+{
+    foreach (QslPlotable *plotable, m->plotables) {
+        if (plotable->name() == name) {
+            return plotable;
+        }
+    }
+    // not here
+    return 0;
+}
+
+
+QList<QslPlotable*> QslScale::plotableList() const
+{
+    return m->plotables;
+}
+
+
+void QslScale::paint(QPainter *painter, const QRect &rect)
+{
+    Q_UNUSED(rect)
+    foreach (QslPlotable *plotable, m->plotables) {
+        if (plotable->visible()) {
+            plotable->paint(painter);
+        }
+    }
+}
+

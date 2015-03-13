@@ -17,48 +17,49 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSL_SCALE_H
-#define QSL_SCALE_H
+#include "qsl_chartitem.h"
+#include <QtGui>
 
-#include "qsl_global.h"
 
-QT_BEGIN_NAMESPACE
-class QPainter;
-QT_END_NAMESPACE
-
-class QslChart;
-class QslPlotable;
-
-class QSL_API QslScale : public QObject
+class QslChartItem::Private
 {
-    Q_OBJECT
-
 public:
 
-    QslScale(const QString &name, QslChart *chart);
-
-    virtual ~QslScale();
-
-    QString name() const;
-
-    QslChart* chart() const;
-
-    void add(QslPlotable *plot);
-
-    QslPlotable* plotable(const QString &name) const;
-
-    QList<QslPlotable*> plotableList() const;
-
-    virtual void paint(QPainter *painter, const QRect &rect);
-
-public slots:
-
-    virtual void update() = 0;
-
-private:
-
-    QSL_PRIVATE_DECLS
-    Q_DISABLE_COPY(QslScale)
+    QslChart chart;
+    QRectF rect;
 };
 
-#endif // QSL_SCALE_H
+
+QslChartItem::QslChartItem() :
+    m(new Private)
+{
+    m->rect = QRectF(0.0, 0.0, 600.0, 450.0);
+}
+
+
+QslChartItem::~QslChartItem()
+{
+    delete m;
+}
+
+
+QslChart* QslChartItem::chart() const
+{
+    return &m->chart;
+}
+
+
+QRectF QslChartItem::boundingRect() const
+{
+    return m->rect;
+}
+
+
+void QslChartItem::paint(QPainter *painter,
+                         const QStyleOptionGraphicsItem *option,
+                         QWidget *widget)
+{
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+    m->chart.paint(painter,m->rect.toRect());
+}

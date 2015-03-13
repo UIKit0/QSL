@@ -17,52 +17,52 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSL_CHART_H
-#define QSL_CHART_H
+#ifndef QSL_PLOTABLE_H
+#define QSL_PLOTABLE_H
 
 #include "qsl_scale.h"
-#include "qsl_plotable.h"
 
-QT_BEGIN_NAMESPACE
-class QPainter;
-QT_END_NAMESPACE
-
-class QSL_API QslChart : public QObject
+class QSL_API QslPlotable : public QObject
 {
     Q_OBJECT
 
 public:
 
-    explicit QslChart(QObject *parent = 0);
+    QslPlotable(const QString &name = "QSL",
+                QObject *parent = 0);
 
-    virtual ~QslChart();
+    virtual ~QslPlotable();
 
-    QslScale* scale(const QString &name) const;
+    QslScale* scale() const;
 
-    QList<QslScale*> scaleList() const;
+    QslChart* chart() const;
 
-    virtual void add(QslScale *scale);
+    QString name() const;
 
-    virtual void paint(QPainter *painter, const QRect &rect);
+    bool visible() const;
+
+    virtual void setScale(QslScale *scale);
+
+    virtual void paint(QPainter *painter) = 0;
+
+    virtual void paintThumb(const QPoint &pos, QPainter *painter);
 
 signals:
 
-    void changed();
+    void appearenceChange(QslPlotable *self);
+
+    void dataChange(QslPlotable *self);
 
 public slots:
 
-    void save(const QString &fileName,
-              const QSize &size = QSize(600,450),
-              const char *format = "png");
+    void setName(const QString &name);
 
-    virtual void onAppearenceChange(QslPlotable *plotable);
-
-    virtual void onDataChange(QslPlotable *plotable);
+    void setVisible(bool visible);
 
 private:
 
     QSL_PRIVATE_DECLS
-    Q_DISABLE_COPY(QslChart)
+    Q_DISABLE_COPY(QslPlotable)
 };
 
-#endif // QSL_CHART_H
+#endif // QSL_PLOTABLE_H

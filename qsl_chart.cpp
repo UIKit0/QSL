@@ -18,6 +18,8 @@
  */
 
 #include "qsl_chart.h"
+#include "qsl_scale.h"
+#include "qsl_plotable.h"
 #include <QtGui>
 
 
@@ -47,3 +49,65 @@ QslChart::~QslChart()
 }
 
 
+QslScale* QslChart::scale(const QString &name) const
+{
+    foreach (QslScale *scale, m->scales) {
+        if (scale->name() == name) {
+            return scale;
+        }
+    }
+    // not here
+    return 0;
+}
+
+
+QList<QslScale*> QslChart::scaleList() const
+{
+    return m->scales;
+}
+
+
+void QslChart::add(QslScale *scale)
+{
+    m->scales.append(scale);
+    emit changed();
+}
+
+
+void QslChart::paint(QPainter *painter, const QRect &rect)
+{
+    painter->save();
+    painter->setClipRect(rect);
+    if (m->paintBack) {
+        painter->fillRect(rect,m->backBrush);
+    }
+    foreach (QslScale *scale, m->scales) {
+        scale->paint(painter,rect);
+    }
+    painter->restore();
+}
+
+
+void QslChart::save(const QString &fileName,
+                    const QSize &size,
+                    const char *format)
+{
+    QImage image(size,QImage::Format_ARGB32);
+    QPainter painter(&image);
+    paint(&painter,QRect(QPoint(0,0),size));
+    image.save(fileName,format);
+}
+
+
+void QslChart::onAppearenceChange(QslPlotable *plotable)
+{
+    Q_UNUSED(plotable)
+    emit changed();
+}
+
+
+void QslChart::onDataChange(QslPlotable *plotable)
+{
+    plotable->scale()->update();
+    emit changed();
+}

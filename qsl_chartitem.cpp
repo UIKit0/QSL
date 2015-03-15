@@ -63,3 +63,5 @@ void QslChartItem::paint(QPainter *painter,
     Q_UNUSED(widget)
     m->chart.paint(painter,m->rect.toRect());
 }
+
+/* qsl_chartitem.cpp */

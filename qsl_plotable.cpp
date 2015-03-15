@@ -29,6 +29,7 @@ public:
 
     QString name;
     bool visible;
+    bool hasThumb;
     QslScale *scale;
 };
 
@@ -38,7 +39,10 @@ QslPlotable::QslPlotable(const QString &name,
     QObject(parent),
     m(new Private)
 {
+    m->scale = 0;
     m->name = name;
+    m->visible = true;
+    m->hasThumb = false;
 }
 
 
@@ -73,6 +77,12 @@ QString QslPlotable::name() const
 bool QslPlotable::visible() const
 {
     return m->visible;
+}
+
+
+bool QslPlotable::hasThumb() const
+{
+    return m->hasThumb;
 }
 
 
@@ -120,3 +130,14 @@ void QslPlotable::setVisible(bool visible)
         emit appearenceChange(this);
     }
 }
+
+
+void QslPlotable::setHasThumb(bool hasThumb)
+{
+    if (m->hasThumb != hasThumb) {
+        m->hasThumb = hasThumb;
+        emit appearenceChange(this);
+    }
+}
+
+/* qsl_plotable.cpp */

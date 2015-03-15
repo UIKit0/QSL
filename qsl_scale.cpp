@@ -28,14 +28,11 @@ public:
 
     QString name;
     QslChart *chart;
-    QList<QslPlotable*> plotables;
-
 };
 
 
 QslScale::QslScale(const QString &name,
                    QslChart *chart) :
-    QObject(chart),
     m(new Private)
 {
     m->name = name;
@@ -55,45 +52,22 @@ QString QslScale::name() const
 }
 
 
+void QslScale::setChart(QslChart *chart)
+{
+    m->chart = chart;
+}
+
+
 QslChart* QslScale::chart() const
 {
     return m->chart;
 }
 
 
-void QslScale::add(QslPlotable *plot)
-{
-    m->plotables.append(plot);
-    plot->setScale(this);
-    update();
-}
-
-
-QslPlotable* QslScale::plotable(const QString &name) const
-{
-    foreach (QslPlotable *plotable, m->plotables) {
-        if (plotable->name() == name) {
-            return plotable;
-        }
-    }
-    // not here
-    return 0;
-}
-
-
-QList<QslPlotable*> QslScale::plotableList() const
-{
-    return m->plotables;
-}
-
-
 void QslScale::paint(QPainter *painter, const QRect &rect)
 {
+    Q_UNUSED(painter)
     Q_UNUSED(rect)
-    foreach (QslPlotable *plotable, m->plotables) {
-        if (plotable->visible()) {
-            plotable->paint(painter);
-        }
-    }
 }
 
+/* qsl_scale.cpp */

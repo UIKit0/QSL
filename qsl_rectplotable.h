@@ -17,45 +17,42 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSL_SCALE_H
-#define QSL_SCALE_H
+#ifndef QSL_RECTPLOTABLE_H
+#define QSL_RECTPLOTABLE_H
 
-#include "qsl_global.h"
+#include "qsl_plotable.h"
 
-QT_BEGIN_NAMESPACE
-class QPainter;
-QT_END_NAMESPACE
-
-class QslChart;
-
-class QSL_API QslScale
+class QSL_API QslRectPlotable : public QslPlotable
 {
 public:
 
-    QslScale(const QString &name = "default",
-             QslChart *chart = 0);
+    QslRectPlotable(const QString &name = "QSL",
+                    QObject *parent = 0);
 
-    virtual ~QslScale();
+    virtual ~QslRectPlotable();
 
-    QString name() const;
+    double xMin() const;
+    double xMax() const;
+    double yMin() const;
+    double yMax() const;
 
-    QslChart* chart() const;
+    void setXmin(double x);
+    void setXmax(double x);
+    void setYmin(double y);
+    void setYmax(double y);
 
-public slots:
+protected:
 
-    friend class QslChart;
+    friend class QslRectScale;
 
-    void setChart(QslChart *chart);
+    virtual void paint(QPainter *painter) = 0;
 
-    virtual void paint(QPainter *painter,
-                       const QRect &rect);
-
-    virtual void update() = 0;
+    virtual void paintThumb(const QPoint &pos, QPainter *painter);
 
 private:
 
     QSL_PRIVATE_DECLS
-    Q_DISABLE_COPY(QslScale)
+    Q_DISABLE_COPY(QslRectPlotable)
 };
 
-#endif // QSL_SCALE_H
+#endif // QSL_RECTPLOTABLE_H

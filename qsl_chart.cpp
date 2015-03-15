@@ -70,6 +70,7 @@ QList<QslScale*> QslChart::scaleList() const
 void QslChart::add(QslScale *scale)
 {
     m->scales.append(scale);
+    scale->setChart(this);
     emit changed();
 }
 
@@ -111,3 +112,5 @@ void QslChart::onDataChange(QslPlotable *plotable)
     plotable->scale()->update();
     emit changed();
 }
+
+/* qsl_chart.cpp */

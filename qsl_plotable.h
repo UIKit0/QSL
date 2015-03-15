@@ -41,11 +41,7 @@ public:
 
     bool visible() const;
 
-    virtual void setScale(QslScale *scale);
-
-    virtual void paint(QPainter *painter) = 0;
-
-    virtual void paintThumb(const QPoint &pos, QPainter *painter);
+    bool hasThumb() const;
 
 signals:
 
@@ -58,6 +54,18 @@ public slots:
     void setName(const QString &name);
 
     void setVisible(bool visible);
+
+    void setHasThumb(bool hasThumb);
+
+protected:
+
+    friend class QslScale;
+
+    virtual void setScale(QslScale *scale);
+
+    virtual void paint(QPainter *painter) = 0;
+
+    virtual void paintThumb(const QPoint &pos, QPainter *painter);
 
 private:
 

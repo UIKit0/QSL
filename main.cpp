@@ -19,18 +19,40 @@
 
 #include <QtWidgets>
 #include "qsl_chartitem.h"
+#include "qsl_xyplot.h"
+
+#define N 200
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc,argv);
 
+    QslVector<double> x(N), y1(N), y2(N);
+    int k;
+    for (k=0; k<N; k++) {
+        x[k] = -5.0 + (10.0/N)*k;
+        y1[k] = exp(-x[k]*x[k]);
+        y2[k] = y1[k] + 0.2*y1[k]*cos(10.0*x[k]);
+    }
+
+    QslXYPlot modelPlot(x, y1, Qt::blue, QslXYPlot::Line);
+    QslXYPlot samplesPlot(x, y2, Qt::red, QslXYPlot::Circles);
+
+    QslRectScale scale;
+    scale.add(&modelPlot);
+    scale.add(&samplesPlot);
+
     QslChartItem *item = new QslChartItem;
+    item->chart()->add(&scale);
+
     QGraphicsScene scene;
     scene.addItem(item);
 
     QGraphicsView view;
     view.setScene(&scene);
     view.show();
+
+    item->chart()->save("figure.png");
 
     return app.exec();
 }

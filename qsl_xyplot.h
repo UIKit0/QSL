@@ -17,45 +17,52 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSL_SCALE_H
-#define QSL_SCALE_H
+#ifndef QSL_XYPLOT_H
+#define QSL_XYPLOT_H
 
-#include "qsl_global.h"
+#include "qsl_rectplotable.h"
+#include "qsl_rectscale.h"
+#include "qsl_vector.h"
+#include <QColor>
 
-QT_BEGIN_NAMESPACE
-class QPainter;
-QT_END_NAMESPACE
 
-class QslChart;
-
-class QSL_API QslScale
+class QSL_API QslXYPlot : public QslRectPlotable
 {
 public:
 
-    QslScale(const QString &name = "default",
-             QslChart *chart = 0);
+    enum Scatter
+    {
+        Line,
+        Circles
+    };
 
-    virtual ~QslScale();
+    QslXYPlot(const QslVector<double> &x,
+              const QslVector<double> &y,
+              const QColor &color = Qt::blue,
+              Scatter scatter = Line);
 
-    QString name() const;
 
-    QslChart* chart() const;
+    ~QslXYPlot();
+
 
 public slots:
 
-    friend class QslChart;
+    void setData(const QslVector<double> &x,
+                 const QslVector<double> &y);
 
-    void setChart(QslChart *chart);
+protected:
 
-    virtual void paint(QPainter *painter,
-                       const QRect &rect);
+    virtual void paint(QPainter *painter);
 
-    virtual void update() = 0;
+    void paintLine(QPainter *painter);
+    void paintCircles(QPainter *painter);
+
+    void checkRanges();
 
 private:
 
     QSL_PRIVATE_DECLS
-    Q_DISABLE_COPY(QslScale)
+    Q_DISABLE_COPY(QslXYPlot)
 };
 
-#endif // QSL_SCALE_H
+#endif // QSL_XYPLOT_H

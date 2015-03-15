@@ -17,34 +17,36 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtWidgets>
-#include "qsl_chartwidget.h"
-#include "qsl_xyplot.h"
+#ifndef QSL_CHARTWIDGET_H
+#define QSL_CHARTWIDGET_H
 
-#define N 200
+#include <QWidget>
+#include "qsl_chart.h"
 
-int main(int argc, char *argv[])
+class QSL_API QslChartWidget : public QWidget
 {
-    QApplication app(argc,argv);
+    Q_OBJECT
 
-    QslVector<double> x(N), y1(N), y2(N);
-    int k;
-    for (k=0; k<N; k++) {
-        x[k] = -5.0 + (10.0/N)*k;
-        y1[k] = exp(-x[k]*x[k]);
-        y2[k] = y1[k] + 0.2*y1[k]*cos(10.0*x[k]);
-    }
+public:
 
-    QslXYPlot modelPlot(x, y1, Qt::blue, QslXYPlot::Line);
-    QslXYPlot samplesPlot(x, y2, Qt::red, QslXYPlot::Circles);
+    explicit QslChartWidget(QWidget *parent = 0);
 
-    QslRectScale scale;
-    scale.add(&modelPlot);
-    scale.add(&samplesPlot);
+    QslChartWidget(const QString &title,
+                   int width = 600, int height = 450,
+                   QWidget *parent = 0);
 
-    QslChartWidget widget("QSLChart");
-    widget.chart()->add(&scale);
-    widget.show();
+    ~QslChartWidget();
 
-    return app.exec();
-}
+    QslChart* chart() const;
+
+public slots:
+
+    virtual void paintEvent(QPaintEvent *event);
+
+private:
+
+    QSL_PRIVATE_DECLS
+    Q_DISABLE_COPY(QslChartWidget)
+};
+
+#endif // QSLCHARTWIDGET_H

@@ -17,34 +17,50 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtWidgets>
 #include "qsl_chartwidget.h"
-#include "qsl_xyplot.h"
+#include <QtWidgets>
 
-#define N 200
 
-int main(int argc, char *argv[])
+class QslChartWidget::Private
 {
-    QApplication app(argc,argv);
+public:
 
-    QslVector<double> x(N), y1(N), y2(N);
-    int k;
-    for (k=0; k<N; k++) {
-        x[k] = -5.0 + (10.0/N)*k;
-        y1[k] = exp(-x[k]*x[k]);
-        y2[k] = y1[k] + 0.2*y1[k]*cos(10.0*x[k]);
-    }
+    QslChart chart;
+};
 
-    QslXYPlot modelPlot(x, y1, Qt::blue, QslXYPlot::Line);
-    QslXYPlot samplesPlot(x, y2, Qt::red, QslXYPlot::Circles);
 
-    QslRectScale scale;
-    scale.add(&modelPlot);
-    scale.add(&samplesPlot);
+QslChartWidget::QslChartWidget(QWidget *parent) :
+    QWidget(parent),
+    m(new Private)
+{}
 
-    QslChartWidget widget("QSLChart");
-    widget.chart()->add(&scale);
-    widget.show();
 
-    return app.exec();
+QslChartWidget::QslChartWidget(const QString &title,
+                               int width, int height,
+                               QWidget *parent) :
+    QWidget(parent),
+    m(new Private)
+{
+    resize(width,height);
+    setWindowTitle(title);
+}
+
+
+QslChartWidget::~QslChartWidget()
+{
+    delete m;
+}
+
+
+QslChart* QslChartWidget::chart() const
+{
+    return &m->chart;
+}
+
+
+void QslChartWidget::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event)
+    QPainter painter(this);
+    m->chart.paint(&painter, rect());
 }

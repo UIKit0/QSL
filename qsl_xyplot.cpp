@@ -116,7 +116,8 @@ void QslXYPlot::paintCircles(QPainter *painter)
 
     int x1 = scale->mapX(m->x[0]);
     int y1 = scale->mapY(m->y[0]);
-    painter->drawEllipse(x1, y1, TWOSYMBRAD, TWOSYMBRAD);
+    painter->drawEllipse(x1-SYMBRAD, y1-SYMBRAD,
+                         TWOSYMBRAD, TWOSYMBRAD);
     for (int i=1; i<m->x.size(); i++) {
         int x2 = scale->mapX(m->x[i]);
         int y2 = scale->mapY(m->y[i]);
@@ -126,8 +127,8 @@ void QslXYPlot::paintCircles(QPainter *painter)
         int sqrd = dx*dx + dy*dy;
 
         if (sqrd > TWOSYMBRADSQR) {
-            painter->drawEllipse(
-                x2, y2, TWOSYMBRAD, TWOSYMBRAD);
+            painter->drawEllipse(x2-SYMBRAD, y2-SYMBRAD,
+                                 TWOSYMBRAD, TWOSYMBRAD);
             x1 = x2;
             y1 = y2;
         }

@@ -12,7 +12,8 @@ HEADERS += \
     qsl_rectplotable.h \
     qsl_xyplot.h \
     qsl_vector.h \
-    qsl_chartwidget.h
+    qsl_chartwidget.h \
+    qsl_rectframe.h
 
 SOURCES += \
     qsl_chart.cpp \
@@ -23,4 +24,5 @@ SOURCES += \
     qsl_rectscale.cpp \
     qsl_rectplotable.cpp \
     qsl_xyplot.cpp \
-    qsl_chartwidget.cpp
+    qsl_chartwidget.cpp \
+    qsl_rectframe.cpp

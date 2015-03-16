@@ -34,6 +34,8 @@ public:
 
     void add(QslRectPlotable *plot);
 
+    void add(QslRectPlotable &plot) { add(&plot); }
+
     QslRectPlotable* plotable(const QString &name) const;
 
     QList<QslRectPlotable*> plotableList() const;

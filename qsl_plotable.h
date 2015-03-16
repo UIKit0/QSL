@@ -25,6 +25,8 @@
 class QSL_API QslPlotable : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString name READ name WRITE setName)
+    Q_PROPERTY(bool visible READ visible WRITE setVisible)
 
 public:
 
@@ -55,8 +57,6 @@ public slots:
 
     void setVisible(bool visible);
 
-    void setHasThumb(bool hasThumb);
-
 protected:
 
     friend class QslScale;
@@ -66,6 +66,8 @@ protected:
     virtual void paint(QPainter *painter) = 0;
 
     virtual void paintThumb(const QPoint &pos, QPainter *painter);
+
+    void setHasThumb(bool hasThumb);
 
 private:
 

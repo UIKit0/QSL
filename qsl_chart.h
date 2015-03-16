@@ -43,6 +43,8 @@ public:
 
     virtual void add(QslScale *scale);
 
+    void add(QslScale &scale) { add(&scale); }
+
     virtual void paint(QPainter *painter, const QRect &rect);
 
 signals:

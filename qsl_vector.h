@@ -22,7 +22,7 @@
 
 #include "qsl_global.h"
 
-template<class T>
+template <typename T>
 class QslVector
 {
 public:
@@ -30,33 +30,24 @@ public:
     typedef T* Iterator;
     typedef const T* ConstIterator;
 
-    QslVector() : m_data(0), m_size(0), m_isView(false) {}
-    QslVector(int n) : m_data(new T[n]), m_size(n), m_isView(false) {}
-    QslVector(const QslVector &that) : m_data(that.m_data), m_size(that.m_size), m_isView(true) {}
-    QslVector(const QVector<T> &qVec) : m_data(const_cast<T*>(qVec.data())), m_size(qVec.size()), m_isView(true) {}
+    QslVector();
 
-    QslVector& operator= (const QslVector &that) {
-        if (m_data == that.m_data)
-            return *this;
-        if (m_data && (m_isView==false)) {
-            delete[] m_data;
-        }
-        m_data = that.m_data;
-        m_size = that.m_size;
-        m_isView = true;
-        return *this;
-    }
+    QslVector(qint32 n);
 
-    ~QslVector() {
-        if (m_data && (m_isView==false)) {
-            delete[] m_data;
-        }
-    }
+    QslVector(const QslVector<T> &that);
 
-    int size() const { return m_size; }
+    QslVector(const QVector<T> &qVec);
 
-    T& operator[] (int k) { return m_data[k]; }
-    const T& operator[] (int k) const { return m_data[k]; }
+    ~QslVector();
+
+    QslVector& operator= (const QslVector<T> &that);
+
+    qint32 size() const { return m_size; }
+
+    T& operator[] (qint32 k) { return m_data[k]; }
+    const T& operator[] (qint32 k) const { return m_data[k]; }
+
+    void alloc(qint32 n);
 
     Iterator begin() { return m_data; }
     Iterator end() { return m_data + m_size; }
@@ -66,8 +57,74 @@ public:
 private:
 
     T *m_data;
-    int m_size;
+    qint32 m_size;
     bool m_isView;
 };
+
+
+template <typename T>
+inline QslVector<T>::QslVector() :
+    m_data(0),
+    m_size(0),
+    m_isView(false) {}
+
+
+template <typename T>
+inline QslVector<T>::QslVector(qint32 n) :
+    m_data(new T[n]),
+    m_size(n),
+    m_isView(false) {}
+
+
+template <typename T>
+inline QslVector<T>::QslVector(const QslVector<T> &that) :
+    m_data(that.m_data),
+    m_size(that.m_size),
+    m_isView(true) {}
+
+
+template <typename T>
+inline QslVector<T>::QslVector(const QVector<T> &qVec) :
+    m_data(const_cast<T*>(qVec.data())),
+    m_size(qVec.size()),
+    m_isView(true) {}
+
+
+template <typename T>
+inline QslVector<T>& QslVector<T>::operator= (const QslVector<T> &that)
+{
+    if (m_data == that.m_data)
+        return *this;
+    if (m_data && (m_isView==false)) {
+        delete[] m_data;
+    }
+    m_data = that.m_data;
+    m_size = that.m_size;
+    m_isView = true;
+    return *this;
+}
+
+
+template <typename T>
+inline QslVector<T>::~QslVector()
+{
+    if (m_data && (m_isView==false)) {
+        delete[] m_data;
+    }
+}
+
+
+template <typename T>
+inline void QslVector<T>::alloc(qint32 n)
+{
+   if (m_size != n || m_isView) {
+       if (m_data && (m_isView==false)) {
+           delete[] m_data;
+       }
+       m_data = new T[n];
+       m_size = n;
+       m_isView = false;
+   }
+}
 
 #endif // QSL_VECTOR_H

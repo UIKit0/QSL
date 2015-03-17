@@ -21,8 +21,8 @@
 #define QSL_RECTFRAME_H
 
 #include "qsl_plotable.h"
-#include "qsl_rectscale.h"
 
+class QslRectScale;
 
 class QSL_API QslRectFrame : public QslPlotable
 {
@@ -50,6 +50,10 @@ public:
 public slots:
 
     void setVisible(Component component, bool on);
+
+protected:
+
+    friend class QslRectScale;
 
     virtual void paint(QPainter *painter);
 

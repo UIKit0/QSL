@@ -21,7 +21,7 @@
 #include "qsl_chartwidget.h"
 #include "qsl_xyplot.h"
 
-#define N 200
+#define N 500
 
 int main(int argc, char *argv[])
 {

@@ -32,7 +32,9 @@ public:
 QslChartWidget::QslChartWidget(QWidget *parent) :
     QWidget(parent),
     m(new Private)
-{}
+{
+    setMinimumSize(250,250);
+}
 
 
 QslChartWidget::QslChartWidget(const QString &title,
@@ -43,6 +45,7 @@ QslChartWidget::QslChartWidget(const QString &title,
 {
     resize(width,height);
     setWindowTitle(title);
+    setMinimumSize(250,250);
 }
 
 

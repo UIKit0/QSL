@@ -22,6 +22,7 @@
 
 #include <QWidget>
 #include "qsl_chart.h"
+#include "qsl_rectscale.h"
 
 class QSL_API QslChartWidget : public QWidget
 {

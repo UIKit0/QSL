@@ -27,6 +27,7 @@ class QPainter;
 QT_END_NAMESPACE
 
 class QslChart;
+class QslPlotable;
 
 class QSL_API QslScale
 {
@@ -41,6 +42,8 @@ public:
 
     QslChart* chart() const;
 
+    QslPlotable* frame() const;
+
 public slots:
 
     friend class QslChart;
@@ -51,6 +54,10 @@ public slots:
                        const QRect &rect);
 
     virtual void update() = 0;
+
+protected:
+
+    void setFrame(QslPlotable *frame);
 
 private:
 

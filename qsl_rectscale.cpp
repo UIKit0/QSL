@@ -27,6 +27,7 @@ class QslRectScale::Private
 public:
 
     QList<QslRectPlotable*> plotables;
+    QslRectFrame frame;
 
     double xMin, xMax;
     double yMin, yMax;
@@ -46,8 +47,10 @@ QslRectScale::QslRectScale(const QString &name,
     QslScale(name,chart),
     m(new Private)
 {
-    m->xLowBound = m->xUpBound = 20.0;
-    m->yLowBound = m->yUpBound = 20.0;
+    m->xLowBound = m->xUpBound = 80.0;
+    m->yLowBound = m->yUpBound = 60.0;
+    m->frame.setScale(this);
+    setFrame(&m->frame);
 }
 
 
@@ -61,7 +64,8 @@ void QslRectScale::add(QslRectPlotable *plot)
 {
     m->plotables.append(plot);
     plot->setScale(this);
-    update();
+    if (plot->scalable())
+        update();
 }
 
 
@@ -81,6 +85,9 @@ QList<QslRectPlotable *> QslRectScale::plotableList() const
 {
     return m->plotables;
 }
+
+
+
 
 
 int QslRectScale::mapX(double x) const
@@ -107,6 +114,7 @@ void QslRectScale::paint(QPainter *painter, const QRect &rect)
     m->widthPix = m->xMaxPix - m->xMinPix;
     m->heightPix = m->yMaxPix - m->yMinPix;
 
+    // paint plotables
     painter->save();
     painter->setClipRect(m->xMinPix, m->yMinPix,
                          m->widthPix, m->heightPix);
@@ -116,6 +124,9 @@ void QslRectScale::paint(QPainter *painter, const QRect &rect)
         }
     }
     painter->restore();
+
+    // paint frame
+    m->frame.paint(painter);
 }
 
 
@@ -135,6 +146,10 @@ void QslRectScale::update()
     QList<QslRectPlotable*>::iterator end = m->plotables.end();
     QslRectPlotable *plot = (*iter++);
 
+    while (plot->scalable() == false) {
+        plot = (*iter++);
+    }
+
     m->xMin = plot->xMin();
     m->xMax = plot->xMax();
     m->yMin = plot->yMin();
@@ -142,6 +157,9 @@ void QslRectScale::update()
 
     while (iter != end) {
         plot = *iter++;
+        if (plot->scalable() == false) {
+            continue;
+        }
         if (plot->xMin() < m->xMin) m->xMin = plot->xMin();
         if (plot->xMax() > m->xMax) m->xMax = plot->xMax();
         if (plot->yMin() < m->yMin) m->yMin = plot->yMin();

@@ -22,6 +22,7 @@
 
 #include "qsl_scale.h"
 #include "qsl_rectplotable.h"
+#include "qsl_rectframe.h"
 
 class QSL_API QslRectScale : public QslScale
 {

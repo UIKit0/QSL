@@ -45,6 +45,8 @@ public:
 
     bool hasThumb() const;
 
+    bool scalable() const;
+
 signals:
 
     void appearenceChange(QslPlotable *self);
@@ -68,6 +70,8 @@ protected:
     virtual void paintThumb(const QPoint &pos, QPainter *painter);
 
     void setHasThumb(bool hasThumb);
+
+    void setScalable(bool scalable);
 
 private:
 

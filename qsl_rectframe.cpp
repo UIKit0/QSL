@@ -18,15 +18,156 @@
  */
 
 #include "qsl_rectframe.h"
+#include "qsl_rectscale.h"
+#include <QtGui>
 
 
-
-QslRectFrame::QslRectFrame()
+class QslRectFrame::Private
 {
+public:
 
+    void setupPaint(QslRectScale *scale);
+
+    void paintBottomTop(QPainter *painter,
+                        QFontMetrics *fm,
+                        QslRectScale *scale);
+
+    void paintLeftRight(QPainter *painter,
+                        QFontMetrics *fm,
+                        QslRectScale *scale);
+
+    QPen pen;
+    double verDivSiz;
+    double horDivSiz;
+    int visibComp;
+    int verNumDiv;
+    int horNumDiv;
+};
+
+
+QslRectFrame::QslRectFrame() :
+    QslPlotable("RectFrame"),
+    m(new Private)
+{
+    setVisible(All, true);
 }
+
 
 QslRectFrame::~QslRectFrame()
 {
+    delete m;
+}
 
+
+void QslRectFrame::setVisible(Component component, bool on)
+{
+    if (component == All) {
+        if (on) {
+        m->visibComp =
+                TopAxis|BottomAxis|LeftAxis|
+                RightAxis|Grid;
+        }
+        else {
+            m->visibComp = 0;
+        }
+        return;
+    }
+
+    m->visibComp = on ? m->visibComp|component :
+                        m->visibComp^component;
+}
+
+
+void QslRectFrame::paint(QPainter *painter)
+{
+    QFontMetrics fm = painter->fontMetrics();
+    QslRectScale *scale =
+        static_cast<QslRectScale*>(this->scale());
+
+    m->setupPaint(scale);
+    m->paintBottomTop(painter, &fm, scale);
+    m->paintLeftRight(painter, &fm, scale);
+}
+
+
+void QslRectFrame::Private::setupPaint(QslRectScale *scale)
+{
+    horNumDiv = scale->widthPix() / 80;
+    horDivSiz = (scale->xMax() - scale->xMin()) / horNumDiv;
+    verNumDiv = scale->heightPix() / 60;
+    verDivSiz = (scale->yMax() - scale->yMin()) / verNumDiv;
+}
+
+
+void QslRectFrame::Private::
+    paintBottomTop(QPainter *painter,
+                   QFontMetrics *fm,
+                   QslRectScale *scale)
+{
+    double coord = scale->xMin();
+    int x = scale->xMinPix();
+    int yb = scale->yMaxPix();
+    int yt = scale->yMinPix();
+    int length = scale->widthPix();
+    int txtHei = fm->height();
+    int txtWid;
+
+    if (visibComp & BottomAxis) {
+        painter->drawLine(x, yb, x+length, yb);
+    }
+    if (visibComp & TopAxis) {
+        painter->drawLine(x, yt, x+length, yt);
+    }
+
+    for (int k=0; k<=horNumDiv; k++) {
+        QString numberLabel = QString::number(coord,'f',2);
+        txtWid = fm->width(numberLabel);
+        if (visibComp & BottomAxis) {
+            painter->drawLine(x, yb, x, yb-8);
+            painter->drawText(x-txtWid/2, yb+2*txtHei, numberLabel);
+        }
+        if (visibComp & TopAxis) {
+            painter->drawLine(x, yt, x, yt+8);
+            painter->drawText(x-txtWid/2, yt-txtHei, numberLabel);
+        }
+        coord += horDivSiz;
+        x = scale->mapX(coord);
+    }
+}
+
+
+void QslRectFrame::Private::
+    paintLeftRight(QPainter *painter,
+                   QFontMetrics *fm,
+                   QslRectScale *scale)
+{
+    double coord = scale->yMin();
+    int xl = scale->xMinPix();
+    int xr = scale->xMaxPix();
+    int y = scale->yMaxPix();
+    int length = scale->heightPix();
+    int txtHei = fm->height();
+    int txtWid;
+
+    if (visibComp & LeftAxis) {
+        painter->drawLine(xl, y, xl, y-length);
+    }
+    if (visibComp & RightAxis) {
+        painter->drawLine(xr, y, xr, y-length);
+    }
+
+    for (int k=0; k<=verNumDiv; k++) {
+        QString numberLabel = QString::number(coord,'f',2);
+        txtWid = fm->width(numberLabel);
+        if (visibComp & LeftAxis) {
+            painter->drawLine(xl, y, xl+8, y);
+            painter->drawText(xl-txtWid-txtHei, y+txtHei/2, numberLabel);
+        }
+        if (visibComp & RightAxis) {
+            painter->drawLine(xr, y, xr-8, y);
+            painter->drawText(xr+txtHei, y+txtHei/2, numberLabel);
+        }
+        coord += verDivSiz;
+        y = scale->mapY(coord);
+    }
 }

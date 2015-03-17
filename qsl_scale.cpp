@@ -28,6 +28,7 @@ public:
 
     QString name;
     QslChart *chart;
+    QslPlotable *frame;
 };
 
 
@@ -37,6 +38,7 @@ QslScale::QslScale(const QString &name,
 {
     m->name = name;
     m->chart = chart;
+    m->frame = 0;
 }
 
 
@@ -58,9 +60,21 @@ void QslScale::setChart(QslChart *chart)
 }
 
 
+void QslScale::setFrame(QslPlotable *frame)
+{
+    m->frame = frame;
+}
+
+
 QslChart* QslScale::chart() const
 {
     return m->chart;
+}
+
+
+QslPlotable* QslScale::frame() const
+{
+    return m->frame;
 }
 
 

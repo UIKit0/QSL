@@ -42,10 +42,11 @@ QslXYPlot::QslXYPlot(const QslVector<double> &x,
                      Scatter scatter) :
     m(new Private)
 {
+    setScalable(true);
     m->scatter = scatter;
     setData(x,y);
     m->pen.setColor(color);
-    m->pen.setWidthF(1.5);
+    m->pen.setWidth(2);
     m->antialias = true;
 }
 

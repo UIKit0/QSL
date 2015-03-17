@@ -87,20 +87,17 @@ QList<QslRectPlotable *> QslRectScale::plotableList() const
 }
 
 
-
-
-
 int QslRectScale::mapX(double x) const
 {
     double ret = (x - m->xMin) / m->width;
-    return m->xMinPix + ret*m->widthPix;
+    return qRound(m->xMinPix + ret*m->widthPix);
 }
 
 
 int QslRectScale::mapY(double y) const
 {
     double ret = (y - m->yMin) / m->height;
-    return m->yMaxPix - ret*m->heightPix;
+    return qRound(m->yMaxPix - ret*m->heightPix);
 }
 
 

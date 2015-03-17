@@ -29,6 +29,7 @@ public:
 
     QList<QslScale*> scales;
 
+    QFont font;
     QBrush backBrush;
     bool paintBack;
 };
@@ -38,6 +39,7 @@ QslChart::QslChart(QObject *parent) :
     QObject(parent),
     m(new Private)
 {
+    m->font = QFont("Times", 10);
     m->backBrush = QBrush(Qt::white);
     m->paintBack = true;
 }
@@ -78,6 +80,7 @@ void QslChart::add(QslScale *scale)
 void QslChart::paint(QPainter *painter, const QRect &rect)
 {
     painter->save();
+    painter->setFont(m->font);
     painter->setClipRect(rect);
     if (m->paintBack) {
         painter->fillRect(rect,m->backBrush);

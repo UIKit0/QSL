@@ -109,7 +109,7 @@ void QslRectFrame::Private::
     int yb = scale->yMaxPix();
     int yt = scale->yMinPix();
     int length = scale->widthPix();
-    int txtHei = fm->height();
+    int txtHei = fm->height() *0.666;
     int txtWid;
 
     if (visibComp & BottomAxis) {
@@ -146,7 +146,7 @@ void QslRectFrame::Private::
     int xr = scale->xMaxPix();
     int y = scale->yMaxPix();
     int length = scale->heightPix();
-    int txtHei = fm->height();
+    int txtHei = fm->height() *0.666;
     int txtWid;
 
     if (visibComp & LeftAxis) {

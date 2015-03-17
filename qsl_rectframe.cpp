@@ -130,6 +130,15 @@ void QslRectFrame::Private::
             if (visibComp & BottomAxis) {
                 painter->drawLine(x, yb, x, yb-8);
                 painter->drawText(x-txtWid/2, yb+2*txtHei, numberLabel);
+                if (visibComp & Grid) {
+                    QPen gridPen(pen);
+                    gridPen.setStyle(Qt::DashLine);
+                    gridPen.setWidthF(0.4);
+                    painter->save();
+                    painter->setPen(gridPen);
+                    painter->drawLine(x, yb, x, yt);
+                    painter->restore();
+                }
             }
             if (visibComp & TopAxis) {
                 painter->drawLine(x, yt, x, yt+8);
@@ -177,6 +186,15 @@ void QslRectFrame::Private::
             if (visibComp & LeftAxis) {
                 painter->drawLine(xl, y, xl+8, y);
                 painter->drawText(xl-txtWid-txtHei, y+txtHei/2, numberLabel);
+                if (visibComp & Grid) {
+                    QPen gridPen(pen);
+                    gridPen.setStyle(Qt::DashLine);
+                    gridPen.setWidthF(0.4);
+                    painter->save();
+                    painter->setPen(gridPen);
+                    painter->drawLine(xl, y, xr, y);
+                    painter->restore();
+                }
             }
             if (visibComp & RightAxis) {
                 painter->drawLine(xr, y, xr-8, y);

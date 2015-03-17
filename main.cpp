@@ -39,8 +39,8 @@ int main(int argc, char *argv[])
     QslXYPlot samplesPlot(x, y2, Qt::red, QslXYPlot::Circles);
 
     QslRectScale scale;
-    scale.add(modelPlot);
     scale.add(samplesPlot);
+    scale.add(modelPlot);
 
     QslChartWidget widget("QSLChart");
     widget.chart()->add(scale);

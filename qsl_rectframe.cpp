@@ -94,8 +94,12 @@ void QslRectFrame::Private::setupPaint(QslRectScale *scale)
 {
     horNumDiv = scale->widthPix() / 80;
     horDivSiz = (scale->xMax() - scale->xMin()) / horNumDiv;
+    horNumDiv *= 5;
+    horDivSiz /= 5.0;
     verNumDiv = scale->heightPix() / 60;
     verDivSiz = (scale->yMax() - scale->yMin()) / verNumDiv;
+    verNumDiv *= 5;
+    verDivSiz /= 5.0;
 }
 
 
@@ -120,15 +124,25 @@ void QslRectFrame::Private::
     }
 
     for (int k=0; k<=horNumDiv; k++) {
-        QString numberLabel = QString::number(coord,'f',2);
-        txtWid = fm->width(numberLabel);
-        if (visibComp & BottomAxis) {
-            painter->drawLine(x, yb, x, yb-8);
-            painter->drawText(x-txtWid/2, yb+2*txtHei, numberLabel);
+        if (k%5 == 0) {
+            QString numberLabel = QString::number(coord,'f',2);
+            txtWid = fm->width(numberLabel);
+            if (visibComp & BottomAxis) {
+                painter->drawLine(x, yb, x, yb-8);
+                painter->drawText(x-txtWid/2, yb+2*txtHei, numberLabel);
+            }
+            if (visibComp & TopAxis) {
+                painter->drawLine(x, yt, x, yt+8);
+                painter->drawText(x-txtWid/2, yt-txtHei, numberLabel);
+            }
         }
-        if (visibComp & TopAxis) {
-            painter->drawLine(x, yt, x, yt+8);
-            painter->drawText(x-txtWid/2, yt-txtHei, numberLabel);
+        else {
+            if (visibComp & BottomAxis) {
+                painter->drawLine(x, yb, x, yb-4);
+            }
+            if (visibComp & TopAxis) {
+                painter->drawLine(x, yt, x, yt+4);
+            }
         }
         coord += horDivSiz;
         x = scale->mapX(coord);
@@ -157,17 +171,29 @@ void QslRectFrame::Private::
     }
 
     for (int k=0; k<=verNumDiv; k++) {
-        QString numberLabel = QString::number(coord,'f',2);
-        txtWid = fm->width(numberLabel);
-        if (visibComp & LeftAxis) {
-            painter->drawLine(xl, y, xl+8, y);
-            painter->drawText(xl-txtWid-txtHei, y+txtHei/2, numberLabel);
+        if (k%5 == 0) {
+            QString numberLabel = QString::number(coord,'f',2);
+            txtWid = fm->width(numberLabel);
+            if (visibComp & LeftAxis) {
+                painter->drawLine(xl, y, xl+8, y);
+                painter->drawText(xl-txtWid-txtHei, y+txtHei/2, numberLabel);
+            }
+            if (visibComp & RightAxis) {
+                painter->drawLine(xr, y, xr-8, y);
+                painter->drawText(xr+txtHei, y+txtHei/2, numberLabel);
+            }
         }
-        if (visibComp & RightAxis) {
-            painter->drawLine(xr, y, xr-8, y);
-            painter->drawText(xr+txtHei, y+txtHei/2, numberLabel);
+        else {
+            if (visibComp & LeftAxis) {
+                painter->drawLine(xl, y, xl+4, y);
+            }
+            if (visibComp & RightAxis) {
+                painter->drawLine(xr, y, xr-4, y);
+            }
         }
         coord += verDivSiz;
         y = scale->mapY(coord);
     }
 }
+
+// qsl_rectframe.cpp

@@ -38,7 +38,7 @@ QslChart::QslChart(QObject *parent) :
     QObject(parent),
     m(new Private)
 {
-    m->font = QFont("Times", 10);
+    m->font = QFont("Times", 11);
     m->backBrush = QBrush(Qt::white);
     m->paintBack = true;
 }

@@ -10,3 +10,4 @@ in a cool C++/Qt fashion.
 Although QSL is in it's first steps, here is a demonstration of what
 it can already do:
 
+![](https://github.com/exocode/QSL/blob/master/figure.png)

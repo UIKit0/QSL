@@ -61,11 +61,16 @@ QslScale* QslChart::scale(const QString &name) const
 }
 
 
-const QList<QslScale*>& QslChart::scales() const
+QList<QslScale *>& QslChart::scales()
 {
     return m->scales;
 }
 
+
+const QList<QslScale*>& QslChart::scales() const
+{
+    return m->scales;
+}
 
 void QslChart::add(QslScale *scale)
 {

@@ -43,6 +43,7 @@ int main(int argc, char *argv[])
         Qt::blue, QslXYPlot::Line);
 
     QslRectScale scale;
+
     scale.add(samplesPlot);
     scale.add(modelPlot);
 

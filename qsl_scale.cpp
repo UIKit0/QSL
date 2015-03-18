@@ -77,7 +77,13 @@ QslPlot* QslScale::plot(const QString &name) const
 }
 
 
-const QList<QslPlot *> &QslScale::plots() const
+QList<QslPlot *>& QslScale::plots()
+{
+    return m->plots;
+}
+
+
+const QList<QslPlot*>& QslScale::plots() const
 {
     return m->plots;
 }

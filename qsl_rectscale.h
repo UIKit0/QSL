@@ -35,6 +35,9 @@ public:
 
     QslXYAxis* axis(QslXYAxis::Component c) const;
 
+    QList<QslXYAxis*>& axis();
+    const QList<QslXYAxis*>& axis() const;
+
     int mapX(double x) const;
     int mapY(double y) const;
 
@@ -65,4 +68,4 @@ private:
     Q_DISABLE_COPY(QslRectScale)
 };
 
-#endif // QSLRECTSCALE_H
+#endif // QSL_RECTSCALE_H

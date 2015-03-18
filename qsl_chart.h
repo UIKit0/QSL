@@ -42,6 +42,7 @@ public:
 
     QslScale* scale(const QString &name) const;
 
+    QList<QslScale*>& scales();
     const QList<QslScale*>& scales() const;
 
     virtual void add(QslScale *scale);

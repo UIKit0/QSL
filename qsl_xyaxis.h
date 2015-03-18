@@ -36,7 +36,8 @@ public:
         TopAxis,
         BottomAxis,
         LeftAxis,
-        RightAxis
+        RightAxis,
+        Grid
     };
 
 

@@ -50,6 +50,8 @@ QslRectScale::QslRectScale(const QString &name,
     m->axis.append( new QslXYAxis(QslXYAxis::BottomAxis, "BottomAxis", this));
     m->axis.append( new QslXYAxis(QslXYAxis::LeftAxis, "LeftAxis", this));
     m->axis.append( new QslXYAxis(QslXYAxis::RightAxis, "RightAxis", this));
+    m->axis.append( new QslXYAxis(QslXYAxis::Grid, "Grid", this));
+    axis(QslXYAxis::Grid)->setVisible(false);
     m->xLowBound = m->xUpBound = 80.0;
     m->yLowBound = m->yUpBound = 60.0;
 }
@@ -71,6 +73,18 @@ QslXYAxis* QslRectScale::axis(QslXYAxis::Component c) const
             return axis;
     }
     return 0;
+}
+
+
+QList<QslXYAxis *>& QslRectScale::axis()
+{
+    return m->axis;
+}
+
+
+const QList<QslXYAxis*>& QslRectScale::axis() const
+{
+    return m->axis;
 }
 
 

@@ -44,7 +44,8 @@ public:
 
     QslPlot* plot(const QString &name) const;
 
-    const QList<QslPlot *> &plots() const;
+    QList<QslPlot*>& plots();
+    const QList<QslPlot*>& plots() const;
 
     void add(QslPlot *plot);
 

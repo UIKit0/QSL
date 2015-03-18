@@ -33,6 +33,7 @@ public:
     void paintBottom(QPainter *painter, QFontMetrics *fm, QslRectScale *scale);
     void paintLeft(QPainter *painter, QFontMetrics *fm, QslRectScale *scale);
     void paintRight(QPainter *painter, QFontMetrics *fm, QslRectScale *scale);
+    void paintGrid(QPainter *painter, QslRectScale *scale);
 
     QPen pen;
     Component component;
@@ -52,6 +53,10 @@ QslXYAxis::QslXYAxis(Component component,
 {
     setScale(scale);
     m->component = component;
+    if (component == Grid) {
+        m->pen.setWidthF(0.5);
+        m->pen.setStyle(Qt::DashLine);
+    }
 }
 
 
@@ -126,8 +131,8 @@ void QslXYAxis::paint(QPainter *painter)
     case RightAxis:
         m->paintRight(painter,&fm,scale);
         break;
-    default:
-        break;
+    case Grid:
+        m->paintGrid(painter,scale);
     }
 }
 
@@ -246,6 +251,40 @@ void QslXYAxis::Private::paintRight(QPainter *painter,
         else {
             painter->drawLine(x, y, x-4, y);
         }
+        coord += divSiz;
+        y = scale->mapY(coord);
+    }
+}
+
+
+void QslXYAxis::Private::paintGrid(QPainter *painter,
+                                    QslRectScale *scale)
+{
+    // vertical lines
+    length = scale->widthPix();
+    int perpLength = scale->heightPix();
+    divNum = length / 80;
+    divSiz = (scale->xMax() - scale->xMin()) / divNum;
+    int x = scale->xMinPix();
+    int y = scale->yMaxPix();
+    double coord = scale->xMin();
+
+    for (int k=0; k<=divNum; k++) {
+        painter->drawLine(x, y, x, y-perpLength);
+        coord += divSiz;
+        x = scale->mapX(coord);
+    }
+
+    length = perpLength;
+    perpLength = scale->widthPix();
+    divNum = length / 60;
+    divSiz = (scale->yMax() - scale->yMin()) / divNum;
+    x = scale->xMinPix();
+    coord = scale->yMin();
+
+    // horizontal lines
+    for (int k=0; k<=divNum; k++) {
+        painter->drawLine(x, y, x+perpLength, y);
         coord += divSiz;
         y = scale->mapY(coord);
     }

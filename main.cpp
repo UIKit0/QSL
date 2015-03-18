@@ -18,15 +18,14 @@
  */
 
 #include <QtWidgets>
-#include "qsl_chartwidget.h"
-#include "qsl_xyplot.h"
+#include "qsl_chartview.h"
 
-#define N 500
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc,argv);
 
+    const int N = 500;
     QslVector<double> x(N), y1(N), y2(N);
     int k;
     for (k=0; k<N; k++) {
@@ -35,17 +34,22 @@ int main(int argc, char *argv[])
         y2[k] = y1[k] + 0.2*y1[k]*cos(10.0*x[k]);
     }
 
-    QslXYPlot modelPlot(x, y1, Qt::blue, QslXYPlot::Line);
-    QslXYPlot samplesPlot(x, y2, Qt::red, QslXYPlot::Circles);
+    QslXYPlot samplesPlot(
+        "Samples", x, y2,
+        Qt::red, QslXYPlot::Circles);
+
+    QslXYPlot modelPlot(
+        "Model", x, y1,
+        Qt::blue, QslXYPlot::Line);
 
     QslRectScale scale;
+    scale.frame()->setTitle(QslRectFrame::TopAxis, "Samples and Model");
     scale.add(samplesPlot);
     scale.add(modelPlot);
 
-    QslChartWidget widget("QSLChart");
-    widget.chart()->add(scale);
-    widget.chart()->save("figure.png", QSize(400,350));
-    widget.show();
+    QslChartView chart;
+    chart.chart()->add(scale);
+    chart.show();
 
     return app.exec();
 }

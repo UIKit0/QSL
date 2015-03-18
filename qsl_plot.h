@@ -20,9 +20,16 @@
 #ifndef QSL_PLOTABLE_H
 #define QSL_PLOTABLE_H
 
-#include "qsl_scale.h"
+#include "qsl_global.h"
 
-class QSL_API QslPlotable : public QObject
+QT_BEGIN_NAMESPACE
+class QPainter;
+QT_END_NAMESPACE
+
+class QslChart;
+class QslScale;
+
+class QSL_API QslPlot : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName)
@@ -30,10 +37,10 @@ class QSL_API QslPlotable : public QObject
 
 public:
 
-    QslPlotable(const QString &name = "QSL",
+    QslPlot(const QString &name,
                 QObject *parent = 0);
 
-    virtual ~QslPlotable();
+    virtual ~QslPlot();
 
     QslScale* scale() const;
 
@@ -49,9 +56,9 @@ public:
 
 signals:
 
-    void appearenceChange(QslPlotable *self);
+    void appearenceChange(QslPlot *self);
 
-    void dataChange(QslPlotable *self);
+    void dataChange(QslPlot *self);
 
 public slots:
 
@@ -67,7 +74,8 @@ protected:
 
     virtual void paint(QPainter *painter) = 0;
 
-    virtual void paintThumb(const QPoint &pos, QPainter *painter);
+    virtual void paintThumb(const QPoint &pos,
+                            QPainter *painter);
 
     void setHasThumb(bool hasThumb);
 
@@ -76,7 +84,7 @@ protected:
 private:
 
     QSL_PRIVATE_DECLS
-    Q_DISABLE_COPY(QslPlotable)
+    Q_DISABLE_COPY(QslPlot)
 };
 
 #endif // QSL_PLOTABLE_H

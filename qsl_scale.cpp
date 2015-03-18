@@ -17,18 +17,19 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "qsl_plot.h"
 #include "qsl_scale.h"
 #include "qsl_chart.h"
-#include "qsl_plotable.h"
+#include <QtGui>
 
 
 class QslScale::Private
 {
 public:
 
+    QList<QslPlot*> plots;
     QString name;
     QslChart *chart;
-    QslPlotable *frame;
 };
 
 
@@ -38,7 +39,6 @@ QslScale::QslScale(const QString &name,
 {
     m->name = name;
     m->chart = chart;
-    m->frame = 0;
 }
 
 
@@ -60,25 +60,39 @@ void QslScale::setChart(QslChart *chart)
 }
 
 
-void QslScale::setFrame(QslPlotable *frame)
-{
-    m->frame = frame;
-}
-
-
 QslChart* QslScale::chart() const
 {
     return m->chart;
 }
 
 
-QslPlotable* QslScale::frame() const
+QslPlot* QslScale::plot(const QString &name) const
 {
-    return m->frame;
+    foreach (QslPlot *plot, m->plots) {
+        if (plot->name() == name)
+            return plot;
+    }
+    // not found
+    return 0;
 }
 
 
-void QslScale::paint(QPainter *painter, const QRect &rect)
+const QList<QslPlot *> &QslScale::plots() const
+{
+    return m->plots;
+}
+
+
+void QslScale::add(QslPlot *plot)
+{
+    m->plots.append(plot);
+    plot->setScale(this);
+    update();
+}
+
+
+void QslScale::paint(QPainter *painter,
+                     const QRect &rect)
 {
     Q_UNUSED(painter)
     Q_UNUSED(rect)

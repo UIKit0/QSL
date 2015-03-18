@@ -27,11 +27,12 @@ class QPainter;
 QT_END_NAMESPACE
 
 class QslScale;
-
+class QslPlot;
 
 class QSL_API QslChart : public QObject
 {
     Q_OBJECT
+    Q_CLASSINFO("author", "Elvis M. Teixeira")
 
 public:
 
@@ -41,7 +42,7 @@ public:
 
     QslScale* scale(const QString &name) const;
 
-    QHash<QslScale*> scaleList() const;
+    const QList<QslScale*>& scales() const;
 
     virtual void add(QslScale *scale);
 
@@ -59,9 +60,9 @@ public slots:
               const QSize &size = QSize(600,450),
               const char *format = "png");
 
-    virtual void onAppearenceChange(QslPlotable *plotable);
+    virtual void onAppearenceChange(QslPlot *plotable);
 
-    virtual void onDataChange(QslPlotable *plotable);
+    virtual void onDataChange(QslPlot *plotable);
 
 private:
 

@@ -17,42 +17,55 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSL_RECTPLOTABLE_H
-#define QSL_RECTPLOTABLE_H
+#ifndef QSL_RECTFRAME_H
+#define QSL_RECTFRAME_H
 
-#include "qsl_plotable.h"
+#include "qsl_plot.h"
 
-class QSL_API QslRectPlotable : public QslPlotable
+class QslRectScale;
+
+class QSL_API QslRectFrame : public QslPlot
 {
+    Q_OBJECT
+    Q_CLASSINFO("author", "Elvis M. Teixeira")
+
 public:
 
-    QslRectPlotable(const QString &name = "QSL",
-                    QObject *parent = 0);
+    enum Component
+    {
+        TopAxis     = 1 << 0,
+        BottomAxis  = 1 << 1,
+        LeftAxis    = 1 << 2,
+        RightAxis   = 1 << 3,
+        Grid        = 1 << 4,
+        Everithing  = 1 << 5
+    };
 
-    virtual ~QslRectPlotable();
 
-    double xMin() const;
-    double xMax() const;
-    double yMin() const;
-    double yMax() const;
+    QslRectFrame(const QString &name,
+                 QslRectScale *scale);
 
-    void setXmin(double x);
-    void setXmax(double x);
-    void setYmin(double y);
-    void setYmax(double y);
+    ~QslRectFrame();
+
+    QString title(Component component) const;
+
+
+public slots:
+
+    void setVisible(Component component, bool on);
+
+    void setTitle(Component component, const QString &title);
 
 protected:
 
     friend class QslRectScale;
 
-    virtual void paint(QPainter *painter) = 0;
-
-    virtual void paintThumb(const QPoint &pos, QPainter *painter);
+    virtual void paint(QPainter *painter);
 
 private:
 
     QSL_PRIVATE_DECLS
-    Q_DISABLE_COPY(QslRectPlotable)
+    Q_DISABLE_COPY(QslRectFrame)
 };
 
-#endif // QSL_RECTPLOTABLE_H
+#endif // QSL_RECTFRAME_H

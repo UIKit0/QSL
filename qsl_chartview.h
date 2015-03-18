@@ -22,21 +22,26 @@
 
 #include <QWidget>
 #include "qsl_chart.h"
-#include "qsl_rectscale.h"
 
-class QSL_API QslChartWidget : public QWidget
+// rect plots
+#include "qsl_rectscale.h"
+#include "qsl_xyplot.h"
+
+
+class QSL_API QslChartView : public QWidget
 {
     Q_OBJECT
+    Q_CLASSINFO("author", "Elvis M. Teixeira")
 
 public:
 
-    explicit QslChartWidget(QWidget *parent = 0);
+    explicit QslChartView(QWidget *parent = 0);
 
-    QslChartWidget(const QString &title,
+    QslChartView(const QString &title,
                    int width = 600, int height = 450,
                    QWidget *parent = 0);
 
-    ~QslChartWidget();
+    ~QslChartView();
 
     QslChart* chart() const;
 
@@ -47,7 +52,7 @@ public slots:
 private:
 
     QSL_PRIVATE_DECLS
-    Q_DISABLE_COPY(QslChartWidget)
+    Q_DISABLE_COPY(QslChartView)
 };
 
-#endif // QSLCHARTWIDGET_H
+#endif // QslChartView_H

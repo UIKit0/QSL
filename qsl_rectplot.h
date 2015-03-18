@@ -17,52 +17,47 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSL_XYPLOT_H
-#define QSL_XYPLOT_H
+#ifndef QSL_RECTPLOT_H
+#define QSL_RECTPLOT_H
 
-#include "qsl_rectplotable.h"
-#include "qsl_rectscale.h"
-#include "qsl_vector.h"
-#include <QColor>
+#include "qsl_plot.h"
 
+class QslRectScale;
 
-class QSL_API QslXYPlot : public QslRectPlotable
+class QSL_API QslRectPlot : public QslPlot
 {
+    Q_OBJECT
+    Q_CLASSINFO("author", "Elvis M. Teixeira")
+
 public:
 
-    enum Scatter
-    {
-        Line,
-        Circles
-    };
+    QslRectPlot(const QString &name,
+                QObject *parent = 0);
 
-    QslXYPlot(const QslVector<double> &x,
-              const QslVector<double> &y,
-              const QColor &color = Qt::blue,
-              Scatter scatter = Line);
+    virtual ~QslRectPlot();
 
+    double xMin() const;
+    double xMax() const;
+    double yMin() const;
+    double yMax() const;
 
-    ~QslXYPlot();
-
-
-public slots:
-
-    void setData(const QslVector<double> &x,
-                 const QslVector<double> &y);
+    void setXmin(double x);
+    void setXmax(double x);
+    void setYmin(double y);
+    void setYmax(double y);
 
 protected:
 
-    virtual void paint(QPainter *painter);
+    friend class QslRectScale;
 
-    void paintLine(QPainter *painter);
-    void paintCircles(QPainter *painter);
+    virtual void paint(QPainter *painter) = 0;
 
-    void checkRanges();
+    virtual void paintThumb(const QPoint &pos, QPainter *painter);
 
 private:
 
     QSL_PRIVATE_DECLS
-    Q_DISABLE_COPY(QslXYPlot)
+    Q_DISABLE_COPY(QslRectPlot)
 };
 
-#endif // QSL_XYPLOT_H
+#endif // QSL_RECTPLOT_H

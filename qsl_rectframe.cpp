@@ -49,11 +49,13 @@ public:
 };
 
 
-QslRectFrame::QslRectFrame() :
-    QslPlotable("RectFrame"),
+QslRectFrame::QslRectFrame(const QString &name,
+                           QslRectScale *scale) :
+    QslPlot(name),
     m(new Private)
 {
-    setVisible(All, true);
+    setScale(scale);
+    setVisible(Everithing, true);
     m->topTitle = "TITLE";
     m->bottomTitle = "X AXIS";
     m->leftTitle = "Y AXIS";
@@ -67,9 +69,35 @@ QslRectFrame::~QslRectFrame()
 }
 
 
+QString QslRectFrame::title(Component component) const
+{
+    switch (component) {
+    case TopAxis:
+        return m->topTitle;
+        break;
+
+    case BottomAxis:
+        return m->bottomTitle;
+        break;
+
+    case LeftAxis:
+        return m->leftTitle;
+        break;
+
+    case RightAxis:
+        return m->rightTitle;
+        break;
+
+    default:
+        break;
+    }
+    return QString();
+}
+
+
 void QslRectFrame::setVisible(Component component, bool on)
 {
-    if (component == All) {
+    if (component == Everithing) {
         if (on) {
         m->visibComp =
                 TopAxis|BottomAxis|LeftAxis|
@@ -83,6 +111,33 @@ void QslRectFrame::setVisible(Component component, bool on)
 
     m->visibComp = on ? m->visibComp|component :
                         m->visibComp^component;
+}
+
+
+void QslRectFrame::setTitle(Component component,
+                            const QString &title)
+{
+    switch (component) {
+    case TopAxis:
+        m->topTitle = title;
+        break;
+
+    case BottomAxis:
+        m->bottomTitle = title;
+        break;
+
+    case LeftAxis:
+        m->leftTitle = title;
+
+        break;
+    case RightAxis:
+        m->rightTitle = title;
+
+        break;
+
+    default:
+        break;
+    }
 }
 
 
@@ -146,11 +201,13 @@ void QslRectFrame::Private::
             }
             if (visibComp & BottomAxis) {
                 painter->drawLine(x, yb, x, yb-8);
-                painter->drawText(x-txtWid/2, yb+2*txtHei, numberLabel);
+                painter->drawText(
+                    x-txtWid/2, yb+2*txtHei, numberLabel);
             }
             if (visibComp & TopAxis) {
                 painter->drawLine(x, yt, x, yt+8);
-                painter->drawText(x-txtWid/2, yt-txtHei, numberLabel);
+                painter->drawText(
+                    x-txtWid/2, yt-txtHei, numberLabel);
             }
         }
         else {
@@ -163,6 +220,17 @@ void QslRectFrame::Private::
         }
         coord += horDivSiz;
         x = scale->mapX(coord);
+    }
+
+    if (visibComp & BottomAxis) {
+        txtWid = fm->width(bottomTitle);
+        x = scale->xMinPix() + (scale->widthPix() - txtWid)/2.0;
+        painter->drawText(x, yb + 4*txtHei, bottomTitle);
+    }
+    if (visibComp & TopAxis) {
+        txtWid = fm->width(topTitle);
+        x = scale->xMinPix() + (scale->widthPix() - txtWid)/2.0;
+        painter->drawText(x, yt - 3*txtHei, topTitle);
     }
 }
 

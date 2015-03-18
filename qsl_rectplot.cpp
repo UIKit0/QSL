@@ -17,10 +17,10 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "qsl_rectplotable.h"
+#include "qsl_rectplot.h"
 
 
-class QslRectPlotable::Private
+class QslRectPlot::Private
 {
 public:
 
@@ -29,37 +29,35 @@ public:
 };
 
 
-QslRectPlotable::QslRectPlotable(const QString &name,
-                                 QObject *parent) :
-    QslPlotable(name,parent),
+QslRectPlot::QslRectPlot(const QString &name,
+                         QObject *parent) :
+    QslPlot(name,parent),
     m(new Private)
-{
-
-}
+{}
 
 
-QslRectPlotable::~QslRectPlotable()
+QslRectPlot::~QslRectPlot()
 {
     delete m;
 }
 
 
-void QslRectPlotable::paintThumb(const QPoint &pos,
-                                 QPainter *painter)
+void QslRectPlot::paintThumb(const QPoint &pos,
+                             QPainter *painter)
 {
     Q_UNUSED(pos)
     Q_UNUSED(painter)
 }
 
 
-double QslRectPlotable::xMin() const { return m->xMin; }
-double QslRectPlotable::xMax() const { return m->xMax; }
-double QslRectPlotable::yMin() const { return m->yMin; }
-double QslRectPlotable::yMax() const { return m->yMax; }
+double QslRectPlot::xMin() const { return m->xMin; }
+double QslRectPlot::xMax() const { return m->xMax; }
+double QslRectPlot::yMin() const { return m->yMin; }
+double QslRectPlot::yMax() const { return m->yMax; }
 
-void QslRectPlotable::setXmin(double x) { m->xMin = x; }
-void QslRectPlotable::setXmax(double x) { m->xMax = x; }
-void QslRectPlotable::setYmin(double y) { m->yMin = y; }
-void QslRectPlotable::setYmax(double y){ m->yMax = y; }
+void QslRectPlot::setXmin(double x) { m->xMin = x; }
+void QslRectPlot::setXmax(double x) { m->xMax = x; }
+void QslRectPlot::setYmin(double y) { m->yMin = y; }
+void QslRectPlot::setYmax(double y){ m->yMax = y; }
 
 /* qsl_rectplotable.cpp */

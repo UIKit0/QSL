@@ -17,9 +17,9 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "qsl_chart.h"
+#include "qsl_plot.h"
 #include "qsl_scale.h"
-#include "qsl_plotable.h"
+#include "qsl_chart.h"
 #include <QtGui>
 
 
@@ -28,7 +28,6 @@ class QslChart::Private
 public:
 
     QList<QslScale*> scales;
-
     QFont font;
     QBrush backBrush;
     bool paintBack;
@@ -54,16 +53,15 @@ QslChart::~QslChart()
 QslScale* QslChart::scale(const QString &name) const
 {
     foreach (QslScale *scale, m->scales) {
-        if (scale->name() == name) {
+        if (scale->name() == name)
             return scale;
-        }
     }
-    // not here
+    // not found
     return 0;
 }
 
 
-QList<QslScale*> QslChart::scaleList() const
+const QList<QslScale*>& QslChart::scales() const
 {
     return m->scales;
 }
@@ -103,14 +101,14 @@ void QslChart::save(const QString &fileName,
 }
 
 
-void QslChart::onAppearenceChange(QslPlotable *plotable)
+void QslChart::onAppearenceChange(QslPlot *plotable)
 {
     Q_UNUSED(plotable)
     emit changed();
 }
 
 
-void QslChart::onDataChange(QslPlotable *plotable)
+void QslChart::onDataChange(QslPlot *plotable)
 {
     plotable->scale()->update();
     emit changed();

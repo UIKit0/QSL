@@ -18,7 +18,7 @@
  */
 
 #include "qsl_rectscale.h"
-#include "qsl_plotable.h"
+#include "qsl_rectplot.h"
 #include <QtGui>
 
 
@@ -26,8 +26,7 @@ class QslRectScale::Private
 {
 public:
 
-    QList<QslRectPlotable*> plotables;
-    QslRectFrame frame;
+    QslRectFrame *frame;
 
     double xMin, xMax;
     double yMin, yMax;
@@ -47,43 +46,22 @@ QslRectScale::QslRectScale(const QString &name,
     QslScale(name,chart),
     m(new Private)
 {
+    m->frame = new QslRectFrame("RectFrame", this);
     m->xLowBound = m->xUpBound = 80.0;
     m->yLowBound = m->yUpBound = 60.0;
-    m->frame.setScale(this);
-    setFrame(&m->frame);
 }
 
 
 QslRectScale::~QslRectScale()
 {
+    delete m->frame;
     delete m;
 }
 
 
-void QslRectScale::add(QslRectPlotable *plot)
+QslRectFrame* QslRectScale::frame() const
 {
-    m->plotables.append(plot);
-    plot->setScale(this);
-    if (plot->scalable())
-        update();
-}
-
-
-QslRectPlotable* QslRectScale::plotable(const QString &name) const
-{
-    foreach (QslRectPlotable *plotable, m->plotables) {
-        if (plotable->name() == name) {
-            return plotable;
-        }
-    }
-    // not here
-    return 0;
-}
-
-
-QList<QslRectPlotable *> QslRectScale::plotableList() const
-{
-    return m->plotables;
+    return m->frame;
 }
 
 
@@ -115,21 +93,24 @@ void QslRectScale::paint(QPainter *painter, const QRect &rect)
     painter->save();
     painter->setClipRect(m->xMinPix, m->yMinPix,
                          m->widthPix, m->heightPix);
-    foreach (QslRectPlotable *plotable, m->plotables) {
-        if (plotable->visible()) {
-            plotable->paint(painter);
+    foreach (QslPlot *plot, plots()) {
+        QslRectPlot *rectPlot = (QslRectPlot*) plot;
+        if (rectPlot->visible()) {
+            rectPlot->paint(painter);
         }
     }
     painter->restore();
 
     // paint frame
-    m->frame.paint(painter);
+    if (m->frame->visible()) {
+        m->frame->paint(painter);
+    }
 }
 
 
 void QslRectScale::update()
 {
-    if (m->plotables.isEmpty()) {
+    if (plots().isEmpty()) {
         m->xMin = 0.0;
         m->xMax = 1.0;
         m->yMin = 0.0;
@@ -139,12 +120,12 @@ void QslRectScale::update()
         return;
     }
 
-    QList<QslRectPlotable*>::iterator iter = m->plotables.begin();
-    QList<QslRectPlotable*>::iterator end = m->plotables.end();
-    QslRectPlotable *plot = (*iter++);
+    QList<QslPlot*>::const_iterator iter = plots().begin();
+    QList<QslPlot*>::const_iterator end = plots().end();
+    QslRectPlot *plot = (QslRectPlot*) (*iter++);
 
     while (plot->scalable() == false) {
-        plot = (*iter++);
+        plot = (QslRectPlot*) (*iter++);
     }
 
     m->xMin = plot->xMin();
@@ -153,7 +134,7 @@ void QslRectScale::update()
     m->yMax = plot->yMax();
 
     while (iter != end) {
-        plot = *iter++;
+        plot = (QslRectPlot*) (*iter++);
         if (plot->scalable() == false) {
             continue;
         }

@@ -17,11 +17,11 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "qsl_chartwidget.h"
+#include "qsl_chartview.h"
 #include <QtWidgets>
 
 
-class QslChartWidget::Private
+class QslChartView::Private
 {
 public:
 
@@ -29,7 +29,7 @@ public:
 };
 
 
-QslChartWidget::QslChartWidget(QWidget *parent) :
+QslChartView::QslChartView(QWidget *parent) :
     QWidget(parent),
     m(new Private)
 {
@@ -37,7 +37,7 @@ QslChartWidget::QslChartWidget(QWidget *parent) :
 }
 
 
-QslChartWidget::QslChartWidget(const QString &title,
+QslChartView::QslChartView(const QString &title,
                                int width, int height,
                                QWidget *parent) :
     QWidget(parent),
@@ -49,19 +49,19 @@ QslChartWidget::QslChartWidget(const QString &title,
 }
 
 
-QslChartWidget::~QslChartWidget()
+QslChartView::~QslChartView()
 {
     delete m;
 }
 
 
-QslChart* QslChartWidget::chart() const
+QslChart* QslChartView::chart() const
 {
     return &m->chart;
 }
 
 
-void QslChartWidget::paintEvent(QPaintEvent *event)
+void QslChartView::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event)
     QPainter painter(this);

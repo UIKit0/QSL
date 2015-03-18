@@ -17,32 +17,54 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSL_CHARTITEM_H
-#define QSL_CHARTITEM_H
+#ifndef QSL_SCALE_H
+#define QSL_SCALE_H
 
-#include "qsl_chart.h"
-#include <QGraphicsItem>
+#include "qsl_global.h"
 
-class QSL_API QslChartItem : public QGraphicsItem
+QT_BEGIN_NAMESPACE
+class QPainter;
+QT_END_NAMESPACE
+
+class QslChart;
+class QslPlot;
+
+class QSL_API QslScale
 {
 public:
 
-    QslChartItem();
+    QslScale(const QString &name = "default",
+             QslChart *chart = 0);
 
-    virtual ~QslChartItem();
+    virtual ~QslScale();
+
+    QString name() const;
 
     QslChart* chart() const;
 
-    QRectF boundingRect() const;
+    QslPlot* plot(const QString &name) const;
+
+    const QList<QslPlot *> &plots() const;
+
+    void add(QslPlot *plot);
+
+    void add(QslPlot &plot) { add(&plot); }
+
+public slots:
+
+    friend class QslChart;
+
+    virtual void setChart(QslChart *chart);
 
     virtual void paint(QPainter *painter,
-                       const QStyleOptionGraphicsItem *option,
-                       QWidget *widget);
+                       const QRect &rect);
+
+    virtual void update() = 0;
 
 private:
 
     QSL_PRIVATE_DECLS
-    Q_DISABLE_COPY(QslChartItem)
+    Q_DISABLE_COPY(QslScale)
 };
 
-#endif // QSL_CHARTITEM_H
+#endif // QSL_SCALE_H

@@ -17,52 +17,52 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSL_SCALE_H
-#define QSL_SCALE_H
+#ifndef QSL_RECTSCALE_H
+#define QSL_RECTSCALE_H
 
-#include "qsl_global.h"
+#include "qsl_scale.h"
+#include "qsl_rectplot.h"
+#include "qsl_rectframe.h"
 
-QT_BEGIN_NAMESPACE
-class QPainter;
-QT_END_NAMESPACE
-
-class QslChart;
-class QslPlotable;
-
-class QSL_API QslScale
+class QSL_API QslRectScale : public QslScale
 {
 public:
 
-    QslScale(const QString &name = "default",
-             QslChart *chart = 0);
+    QslRectScale(const QString &name = "default",
+                 QslChart *chart = 0);
 
-    virtual ~QslScale();
+    virtual ~QslRectScale();
 
-    QString name() const;
+    QslRectFrame* frame() const;
 
-    QslChart* chart() const;
+    int mapX(double x) const;
+    int mapY(double y) const;
 
-    QslPlotable* frame() const;
+    double xMin() const;
+    double xMax() const;
+    double yMin() const;
+    double yMax() const;
+    double width() const;
+    double height() const;
+
+    int xMinPix() const;
+    int xMaxPix() const;
+    int yMinPix() const;
+    int yMaxPix() const;
+    int widthPix() const;
+    int heightPix() const;
 
 public slots:
-
-    friend class QslChart;
-
-    void setChart(QslChart *chart);
 
     virtual void paint(QPainter *painter,
                        const QRect &rect);
 
-    virtual void update() = 0;
-
-protected:
-
-    void setFrame(QslPlotable *frame);
+    virtual void update();
 
 private:
 
     QSL_PRIVATE_DECLS
-    Q_DISABLE_COPY(QslScale)
+    Q_DISABLE_COPY(QslRectScale)
 };
 
-#endif // QSL_SCALE_H
+#endif // QSLRECTSCALE_H

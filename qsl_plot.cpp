@@ -17,13 +17,13 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "qsl_plotable.h"
+#include "qsl_plot.h"
 #include "qsl_scale.h"
 #include "qsl_chart.h"
 #include <QtGui>
 
 
-class QslPlotable::Private
+class QslPlot::Private
 {
 public:
 
@@ -35,8 +35,8 @@ public:
 };
 
 
-QslPlotable::QslPlotable(const QString &name,
-                         QObject *parent) :
+QslPlot::QslPlot(const QString &name,
+                 QObject *parent) :
     QObject(parent),
     m(new Private)
 {
@@ -48,19 +48,19 @@ QslPlotable::QslPlotable(const QString &name,
 }
 
 
-QslPlotable::~QslPlotable()
+QslPlot::~QslPlot()
 {
     delete m;
 }
 
 
-QslScale* QslPlotable::scale() const
+QslScale* QslPlot::scale() const
 {
     return m->scale;
 }
 
 
-QslChart* QslPlotable::chart() const
+QslChart* QslPlot::chart() const
 {
     if (m->scale) {
         return m->scale->chart();
@@ -70,59 +70,59 @@ QslChart* QslPlotable::chart() const
 }
 
 
-QString QslPlotable::name() const
+QString QslPlot::name() const
 {
     return m->name;
 }
 
 
-bool QslPlotable::visible() const
+bool QslPlot::visible() const
 {
     return m->visible;
 }
 
 
-bool QslPlotable::hasThumb() const
+bool QslPlot::hasThumb() const
 {
     return m->hasThumb;
 }
 
 
-bool QslPlotable::scalable() const
+bool QslPlot::scalable() const
 {
     return m->scalable;
 }
 
 
-void QslPlotable::setScale(QslScale *scale)
+void QslPlot::setScale(QslScale *scale)
 {
     QslChart *chart = this->chart();
     if (chart) {
-        disconnect(this, SIGNAL(appearenceChange(QslPlotable*)),
-                   chart, SLOT(onAppearenceChange(QslPlotable*)));
-        disconnect(this, SIGNAL(dataChange(QslPlotable*)),
-                   chart, SLOT(onDataChange(QslPlotable*)));
+        disconnect(this, SIGNAL(appearenceChange(QslPlot*)),
+                   chart, SLOT(onAppearenceChange(QslPlot*)));
+        disconnect(this, SIGNAL(dataChange(QslPlot*)),
+                   chart, SLOT(onDataChange(QslPlot*)));
     }
     m->scale = scale;
     chart = this->chart();
     if (chart) {
-        connect(this, SIGNAL(appearenceChange(QslPlotable*)),
-                chart, SLOT(onAppearenceChange(QslPlotable*)));
-        connect(this, SIGNAL(dataChange(QslPlotable*)),
-                chart, SLOT(onDataChange(QslPlotable*)));
+        connect(this, SIGNAL(appearenceChange(QslPlot*)),
+                chart, SLOT(onAppearenceChange(QslPlot*)));
+        connect(this, SIGNAL(dataChange(QslPlot*)),
+                chart, SLOT(onDataChange(QslPlot*)));
     }
 }
 
 
-void QslPlotable::paintThumb(const QPoint &pos,
-                             QPainter *painter)
+void QslPlot::paintThumb(const QPoint &pos,
+                         QPainter *painter)
 {
     Q_UNUSED(pos)
     Q_UNUSED(painter)
 }
 
 
-void QslPlotable::setName(const QString &name)
+void QslPlot::setName(const QString &name)
 {
     if (m->name != name) {
         m->name = name;
@@ -131,7 +131,7 @@ void QslPlotable::setName(const QString &name)
 }
 
 
-void QslPlotable::setVisible(bool visible)
+void QslPlot::setVisible(bool visible)
 {
     if (m->visible != visible) {
         m->visible = visible;
@@ -140,13 +140,13 @@ void QslPlotable::setVisible(bool visible)
 }
 
 
-void QslPlotable::setHasThumb(bool hasThumb)
+void QslPlot::setHasThumb(bool hasThumb)
 {
     m->hasThumb = hasThumb;
 }
 
 
-void QslPlotable::setScalable(bool scalable)
+void QslPlot::setScalable(bool scalable)
 {
     m->scalable = scalable;
 }

@@ -36,10 +36,13 @@ public:
 };
 
 
-QslXYPlot::QslXYPlot(const QslVector<double> &x,
+QslXYPlot::QslXYPlot(const QString &name,
+                     const QslVector<double> &x,
                      const QslVector<double> &y,
                      const QColor &color,
-                     Scatter scatter) :
+                     Scatter scatter,
+                     QObject *parent) :
+    QslRectPlot(name,parent),
     m(new Private)
 {
     setScalable(true);
@@ -57,12 +60,28 @@ QslXYPlot::~QslXYPlot()
 }
 
 
+QslXYPlot::Scatter QslXYPlot::scatter() const
+{
+    return m->scatter;
+}
+
+
 void QslXYPlot::setData(const QslVector<double> &x,
                         const QslVector<double> &y)
 {
     m->x = x;
     m->y = y;
     checkRanges();
+    emit dataChange(this);
+}
+
+
+void QslXYPlot::setScatter(Scatter scatter)
+{
+    if (m->scatter != scatter) {
+        m->scatter = scatter;
+        emit appearenceChange(this);
+    }
 }
 
 
@@ -139,16 +158,18 @@ void QslXYPlot::paintCircles(QPainter *painter)
 
 void QslXYPlot::checkRanges()
 {
-    setXmin(m->x[0]);
-    setXmax(m->x[0]);
-    setYmin(m->y[0]);
-    setYmax(m->y[0]);
+    double xi = m->x[0], xf = m->x[0];
+    double yi = m->y[0], yf = m->y[0];
     for (int i=1; i<m->x.size(); i++) {
-        if (m->x[i] < xMin()) setXmin(m->x[i]);
-        if (m->x[i] > xMax()) setXmax(m->x[i]);
-        if (m->y[i] < yMin()) setYmin(m->y[i]);
-        if (m->y[i] > yMax()) setYmax(m->y[i]);
+        if (m->x[i] < xi) xi = m->x[i];
+        if (m->x[i] > xf) xf = m->x[i];
+        if (m->y[i] < yi) yi = m->y[i];
+        if (m->y[i] > yf) yf = m->y[i];
     }
+    setXmin(xi);
+    setXmax(xf);
+    setYmin(yi);
+    setYmax(yf);
 }
 
 // qslxyplot.cpp

@@ -49,6 +49,8 @@ int main(int argc, char *argv[])
 
     QslChartView chart;
     chart.chart()->add(scale);
+    
+    chart.chart()->save("figure.png");
     chart.show();
 
     return app.exec();

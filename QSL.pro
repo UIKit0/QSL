@@ -12,7 +12,7 @@ HEADERS += \
     qsl_rectplot.h \
     qsl_xyplot.h \
     qsl_chartview.h \
-    qsl_rectframe.h
+    qsl_xyaxis.h
 
 SOURCES += \
     qsl_chart.cpp \
@@ -23,4 +23,4 @@ SOURCES += \
     qsl_rectplot.cpp \
     qsl_xyplot.cpp \
     qsl_chartview.cpp \
-    qsl_rectframe.cpp
+    qsl_xyaxis.cpp

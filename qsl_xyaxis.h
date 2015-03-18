@@ -17,14 +17,14 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSL_RECTFRAME_H
-#define QSL_RECTFRAME_H
+#ifndef QSL_XYAXIS_H
+#define QSL_XYAXIS_H
 
 #include "qsl_plot.h"
 
 class QslRectScale;
 
-class QSL_API QslRectFrame : public QslPlot
+class QSL_API QslXYAxis : public QslPlot
 {
     Q_OBJECT
     Q_CLASSINFO("author", "Elvis M. Teixeira")
@@ -33,28 +33,22 @@ public:
 
     enum Component
     {
-        TopAxis     = 1 << 0,
-        BottomAxis  = 1 << 1,
-        LeftAxis    = 1 << 2,
-        RightAxis   = 1 << 3,
-        Grid        = 1 << 4,
-        Everithing  = 1 << 5
+        TopAxis,
+        BottomAxis,
+        LeftAxis,
+        RightAxis
     };
 
 
-    QslRectFrame(const QString &name,
-                 QslRectScale *scale);
+    QslXYAxis(Component component,
+              const QString &name,
+              QslRectScale *scale);
 
-    ~QslRectFrame();
+    ~QslXYAxis();
 
-    QString title(Component component) const;
+    Component component() const;
 
-
-public slots:
-
-    void setVisible(Component component, bool on);
-
-    void setTitle(Component component, const QString &title);
+    void setPen(const QPen &pen);
 
 protected:
 
@@ -65,7 +59,7 @@ protected:
 private:
 
     QSL_PRIVATE_DECLS
-    Q_DISABLE_COPY(QslRectFrame)
+    Q_DISABLE_COPY(QslXYAxis)
 };
 
-#endif // QSL_RECTFRAME_H
+#endif // QSL_XYAXIS_H

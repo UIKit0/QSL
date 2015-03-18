@@ -22,7 +22,7 @@
 
 #include "qsl_scale.h"
 #include "qsl_rectplot.h"
-#include "qsl_rectframe.h"
+#include "qsl_xyaxis.h"
 
 class QSL_API QslRectScale : public QslScale
 {
@@ -33,7 +33,7 @@ public:
 
     virtual ~QslRectScale();
 
-    QslRectFrame* frame() const;
+    QslXYAxis* axis(QslXYAxis::Component c) const;
 
     int mapX(double x) const;
     int mapY(double y) const;

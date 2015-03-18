@@ -26,7 +26,7 @@ class QslRectScale::Private
 {
 public:
 
-    QslRectFrame *frame;
+    QList<QslXYAxis*> axis;
 
     double xMin, xMax;
     double yMin, yMax;
@@ -46,7 +46,10 @@ QslRectScale::QslRectScale(const QString &name,
     QslScale(name,chart),
     m(new Private)
 {
-    m->frame = new QslRectFrame("RectFrame", this);
+    m->axis.append( new QslXYAxis(QslXYAxis::TopAxis, "TopAxis", this));
+    m->axis.append( new QslXYAxis(QslXYAxis::BottomAxis, "BottomAxis", this));
+    m->axis.append( new QslXYAxis(QslXYAxis::LeftAxis, "LeftAxis", this));
+    m->axis.append( new QslXYAxis(QslXYAxis::RightAxis, "RightAxis", this));
     m->xLowBound = m->xUpBound = 80.0;
     m->yLowBound = m->yUpBound = 60.0;
 }
@@ -54,14 +57,20 @@ QslRectScale::QslRectScale(const QString &name,
 
 QslRectScale::~QslRectScale()
 {
-    delete m->frame;
+    foreach (QslXYAxis *axis, m->axis) {
+        delete axis;
+    }
     delete m;
 }
 
 
-QslRectFrame* QslRectScale::frame() const
+QslXYAxis* QslRectScale::axis(QslXYAxis::Component c) const
 {
-    return m->frame;
+    foreach (QslXYAxis *axis, m->axis) {
+        if (axis->component() == c)
+            return axis;
+    }
+    return 0;
 }
 
 
@@ -102,8 +111,10 @@ void QslRectScale::paint(QPainter *painter, const QRect &rect)
     painter->restore();
 
     // paint frame
-    if (m->frame->visible()) {
-        m->frame->paint(painter);
+    foreach (QslXYAxis *axis, m->axis) {
+        if (axis->visible()) {
+            axis->paint(painter);
+        }
     }
 }
 

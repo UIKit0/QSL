@@ -43,15 +43,13 @@ int main(int argc, char *argv[])
         Qt::blue, QslXYPlot::Line);
 
     QslRectScale scale;
-    scale.frame()->setTitle(QslRectFrame::TopAxis, "Samples and Model");
     scale.add(samplesPlot);
     scale.add(modelPlot);
 
-    QslChartView chart;
-    chart.chart()->add(scale);
-    
-    chart.chart()->save("figure.png");
-    chart.show();
+    QslChartView chartView;
+    chartView.chart()->add(scale);
+    chartView.chart()->save("figure.png");
+    chartView.show();
 
     return app.exec();
 }

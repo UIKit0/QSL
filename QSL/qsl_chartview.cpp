@@ -39,6 +39,7 @@ QslChartView::QslChartView(QWidget *parent) :
 {
     setMinimumSize(250,250);
     resize(600,450);
+    connect(&m->chart, SIGNAL(changed()), this, SLOT(repaint()));
 }
 
 
@@ -51,6 +52,7 @@ QslChartView::QslChartView(const QString &title,
     setWindowTitle(title);
     setMinimumSize(250,250);
     resize(width,height);
+    connect(&m->chart, SIGNAL(changed()), this, SLOT(repaint()));
 }
 
 

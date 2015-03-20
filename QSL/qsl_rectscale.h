@@ -66,6 +66,10 @@ public slots:
 
     void setYrange(double yi, double yf);
 
+    void setXbound(int low, int up);
+
+    void setYbound(int low, int up);
+
 private:
 
     QSL_PRIVATE_DECLS

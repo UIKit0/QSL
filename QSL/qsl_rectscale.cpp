@@ -54,6 +54,7 @@ QslRectScale::QslRectScale(const QString &name,
     axis(QslXYAxis::Grid)->setVisible(false);
     m->xLowBound = m->xUpBound = 80.0;
     m->yLowBound = m->yUpBound = 60.0;
+    update();
 }
 
 
@@ -193,6 +194,20 @@ void QslRectScale::setYrange(double yi, double yf)
 {
     m->yMin = yi;
     m->yMax = yf;
+}
+
+
+void QslRectScale::setXbound(int low, int up)
+{
+    m->xLowBound = low;
+    m->xUpBound = up;
+}
+
+
+void QslRectScale::setYbound(int low, int up)
+{
+    m->yLowBound = low;
+    m->yUpBound = up;
 }
 
 

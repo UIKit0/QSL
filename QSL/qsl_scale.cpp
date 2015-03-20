@@ -39,6 +39,9 @@ QslScale::QslScale(const QString &name,
 {
     m->name = name;
     m->chart = chart;
+    if (chart) {
+        chart->add(this);
+    }
 }
 
 

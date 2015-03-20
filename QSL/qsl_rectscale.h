@@ -62,6 +62,10 @@ public slots:
 
     virtual void update();
 
+    void setXrange(double xi, double xf);
+
+    void setYrange(double yi, double yf);
+
 private:
 
     QSL_PRIVATE_DECLS

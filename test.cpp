@@ -17,8 +17,8 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtWidgets>
-#include "qsl_chartview.h"
+#include <QApplication>
+#include <QSL/qsl_chartview.h>
 
 
 int main(int argc, char *argv[])
@@ -43,6 +43,9 @@ int main(int argc, char *argv[])
         Qt::blue, QslXYPlot::Line);
 
     QslRectScale scale;
+    scale.axis(QslXYAxis::TopAxis)->setName("Samples and model");
+    scale.axis(QslXYAxis::LeftAxis)->setName("Intensity");
+    scale.axis(QslXYAxis::BottomAxis)->setName("Phase");
 
     scale.add(samplesPlot);
     scale.add(modelPlot);

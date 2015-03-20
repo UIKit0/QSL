@@ -46,10 +46,10 @@ QslRectScale::QslRectScale(const QString &name,
     QslScale(name,chart),
     m(new Private)
 {
-    m->axis.append( new QslXYAxis(QslXYAxis::TopAxis, "TopAxis", this));
-    m->axis.append( new QslXYAxis(QslXYAxis::BottomAxis, "BottomAxis", this));
-    m->axis.append( new QslXYAxis(QslXYAxis::LeftAxis, "LeftAxis", this));
-    m->axis.append( new QslXYAxis(QslXYAxis::RightAxis, "RightAxis", this));
+    m->axis.append( new QslXYAxis(QslXYAxis::TopAxis, "QSL Chart", this));
+    m->axis.append( new QslXYAxis(QslXYAxis::BottomAxis, "X", this));
+    m->axis.append( new QslXYAxis(QslXYAxis::LeftAxis, "Y", this));
+    m->axis.append( new QslXYAxis(QslXYAxis::RightAxis, "", this));
     m->axis.append( new QslXYAxis(QslXYAxis::Grid, "Grid", this));
     axis(QslXYAxis::Grid)->setVisible(false);
     m->xLowBound = m->xUpBound = 80.0;
@@ -179,6 +179,20 @@ void QslRectScale::update()
 
     m->width = m->xMax - m->xMin;
     m->height = m->yMax - m->yMin;
+}
+
+
+void QslRectScale::setXrange(double xi, double xf)
+{
+    m->xMin = xi;
+    m->xMax = xf;
+}
+
+
+void QslRectScale::setYrange(double yi, double yf)
+{
+    m->yMin = yi;
+    m->yMax = yf;
 }
 
 

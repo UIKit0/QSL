@@ -59,6 +59,9 @@ public slots:
     void setData(const QslVector<double> &x,
                  const QslVector<double> &y);
 
+    void updateData(const QslVector<double> &x,
+                    const QslVector<double> &y);
+
     void setScatter(Scatter scatter);
 
 protected:

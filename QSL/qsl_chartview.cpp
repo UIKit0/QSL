@@ -18,8 +18,12 @@
  */
 
 #include "qsl_chartview.h"
-#include <QtWidgets>
 
+#if QT_VERSION > QT_VERSION_CHECK(5,0,0)
+#  include <QtWidgets>
+#else
+#  include <QtGui>
+#endif
 
 class QslChartView::Private
 {
@@ -34,6 +38,7 @@ QslChartView::QslChartView(QWidget *parent) :
     m(new Private)
 {
     setMinimumSize(250,250);
+    resize(600,450);
 }
 
 
@@ -43,9 +48,9 @@ QslChartView::QslChartView(const QString &title,
     QWidget(parent),
     m(new Private)
 {
-    resize(width,height);
     setWindowTitle(title);
     setMinimumSize(250,250);
+    resize(width,height);
 }
 
 

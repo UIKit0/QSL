@@ -76,6 +76,15 @@ void QslXYPlot::setData(const QslVector<double> &x,
 }
 
 
+void QslXYPlot::updateData(const QslVector<double> &x,
+                           const QslVector<double> &y)
+{
+    m->x = x;
+    m->y = y;
+    emit dataChange(this);
+}
+
+
 void QslXYPlot::setScatter(Scatter scatter)
 {
     if (m->scatter != scatter) {

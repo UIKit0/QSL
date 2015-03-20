@@ -209,7 +209,7 @@ void QslXYAxis::Private::paintLeft(QPainter *painter,
     int y = scale->yMaxPix();
     double coord = scale->yMin();
     int txtHei = fm->height() *0.666;
-    int txtWid;
+    int txtWid, maxTxtWid = 0;
 
     painter->drawLine(x, y, x, y-length);
 
@@ -217,6 +217,7 @@ void QslXYAxis::Private::paintLeft(QPainter *painter,
         if (k%5 == 0) {
             QString numLabel = QString::number(coord,'f',2);
             txtWid = fm->width(numLabel);
+            if (txtWid > maxTxtWid) maxTxtWid = txtWid;
             painter->drawLine(x, y, x+8, y);
             painter->drawText(x-txtWid-txtHei, y+txtHei/2, numLabel);
         }
@@ -226,6 +227,13 @@ void QslXYAxis::Private::paintLeft(QPainter *painter,
         coord += divSiz;
         y = scale->mapY(coord);
     }
+    painter->save();
+    painter->rotate(-90.0);
+    txtWid = fm->width(p->name());
+    x = -scale->yMinPix() - (scale->heightPix() + txtWid)/2;
+    y = scale->xMinPix() - maxTxtWid - 2*txtHei;
+    painter->drawText(x,y,p->name());
+    painter->restore();
 }
 
 
@@ -237,7 +245,7 @@ void QslXYAxis::Private::paintRight(QPainter *painter,
     int y = scale->yMaxPix();
     double coord = scale->yMin();
     int txtHei = fm->height() *0.666;
-    int txtWid;
+    int txtWid, maxTxtWid = 0;
 
     painter->drawLine(x, y, x, y-length);
 
@@ -245,6 +253,7 @@ void QslXYAxis::Private::paintRight(QPainter *painter,
         if (k%5 == 0) {
             QString numLabel = QString::number(coord,'f',2);
             txtWid = fm->width(numLabel);
+            if (txtWid > maxTxtWid) maxTxtWid = txtWid;
             painter->drawLine(x, y, x-8, y);
             painter->drawText(x+txtHei, y+txtHei/2, numLabel);
         }
@@ -254,6 +263,13 @@ void QslXYAxis::Private::paintRight(QPainter *painter,
         coord += divSiz;
         y = scale->mapY(coord);
     }
+    painter->save();
+    painter->rotate(-90.0);
+    txtWid = fm->width(p->name());
+    x = -scale->yMinPix() - (scale->heightPix() + txtWid)/2;
+    y = scale->xMaxPix() + maxTxtWid + 3*txtHei;
+    painter->drawText(x,y,p->name());
+    painter->restore();
 }
 
 

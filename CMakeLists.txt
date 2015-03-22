@@ -21,6 +21,7 @@ set(QSL_QOBJ_HDRS
     QSL/qsl_rectplot.h
     QSL/qsl_xyaxis.h
     QSL/qsl_xyplot.h
+    QSL/qsl_chartlegend.h
 )
 
 set(QSL_SRCS
@@ -32,6 +33,7 @@ set(QSL_SRCS
     QSL/qsl_scale.cpp
     QSL/qsl_xyaxis.cpp
     QSL/qsl_xyplot.cpp
+    QSL/qsl_chartlegend.cpp
 )
 
 qt4_wrap_cpp(QSL_MOC_SRCS ${QSL_QOBJ_HDRS})

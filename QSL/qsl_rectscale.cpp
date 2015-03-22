@@ -19,6 +19,8 @@
 
 #include "qsl_rectscale.h"
 #include "qsl_rectplot.h"
+#include "qsl_chart.h"
+#include "qsl_chartlegend.h"
 #include <QtGui>
 
 
@@ -180,6 +182,28 @@ void QslRectScale::update()
 
     m->width = m->xMax - m->xMin;
     m->height = m->yMax - m->yMin;
+}
+
+
+QPoint QslRectScale::legendPos() const
+{
+    QslChartLegend *legend = chart()->legend();
+
+    switch (legend->positionFlag()) {
+    case QslChartLegend::TopLeft:
+        return QPoint(m->xMinPix + 10, m->yMinPix + 10);
+        break;
+    case QslChartLegend::TopRight:
+        return QPoint(m->xMaxPix - 10, m->yMinPix + 10);
+        break;
+    case QslChartLegend::BottomLeft:
+        return QPoint(m->xMinPix + 10, m->yMaxPix - 10);
+        break;
+    case QslChartLegend::BottomRight:
+        return QPoint(m->xMaxPix - 10, m->yMaxPix - 10);
+        break;
+    }
+    return QPoint(m->xMinPix + 10, m->yMinPix + 10);
 }
 
 

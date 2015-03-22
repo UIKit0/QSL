@@ -28,6 +28,7 @@ QT_END_NAMESPACE
 
 class QslScale;
 class QslPlot;
+class QslChartLegend;
 
 class QSL_API QslChart : public QObject
 {
@@ -44,6 +45,8 @@ public:
 
     QList<QslScale*>& scales();
     const QList<QslScale*>& scales() const;
+
+    QslChartLegend* legend() const;
 
     virtual void add(QslScale *scale);
 

@@ -51,6 +51,7 @@ QslXYPlot::QslXYPlot(const QString &name,
     m->pen.setColor(color);
     m->pen.setWidth(2);
     m->antialias = true;
+    setHasThumb(true);
 }
 
 
@@ -179,6 +180,28 @@ void QslXYPlot::checkRanges()
     setXmax(xf);
     setYmin(yi);
     setYmax(yf);
+}
+
+
+void QslXYPlot::paintThumb(const QPoint &pos,
+                           QPainter *painter)
+{
+    painter->setPen(m->pen);
+    painter->setRenderHint(
+                QPainter::Antialiasing, m->antialias);
+
+    switch (m->scatter) {
+    case Line:
+        painter->drawLine(pos.x()-10, pos.y()-4,
+                          pos.x()+10, pos.y()-4);
+        painter->drawText(pos.x() + 15, pos.y(), name());
+        break;
+    case Circles:
+        painter->drawEllipse(pos.x()-SYMBRAD, pos.y()-SYMBRAD-4,
+                             TWOSYMBRAD, TWOSYMBRAD);
+        painter->drawText(pos.x() + 15, pos.y(), name());
+        break;
+    }
 }
 
 // qslxyplot.cpp

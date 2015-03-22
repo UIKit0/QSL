@@ -20,6 +20,7 @@
 #include "qsl_plot.h"
 #include "qsl_scale.h"
 #include "qsl_chart.h"
+#include "qsl_chartlegend.h"
 #include <QtGui>
 
 
@@ -27,6 +28,8 @@ class QslChart::Private
 {
 public:
 
+    QslChartLegend *legend;
+    QslScale *legendPosManager;
     QList<QslScale*> scales;
     QFont font;
     QBrush backBrush;
@@ -38,15 +41,23 @@ QslChart::QslChart(QObject *parent) :
     QObject(parent),
     m(new Private)
 {
+    m->legend = new QslChartLegend(this);
     m->font = QFont("Times", 11);
     m->backBrush = QBrush(Qt::white);
     m->paintBack = true;
+    m->legendPosManager = 0;
 }
 
 
 QslChart::~QslChart()
 {
     delete m;
+}
+
+
+QslChartLegend* QslChart::legend() const
+{
+    return m->legend;
 }
 
 
@@ -76,6 +87,7 @@ void QslChart::add(QslScale *scale)
 {
     m->scales.append(scale);
     scale->setChart(this);
+    m->legendPosManager = scale;
     emit changed();
 }
 
@@ -90,6 +102,12 @@ void QslChart::paint(QPainter *painter, const QRect &rect)
     }
     foreach (QslScale *scale, m->scales) {
         scale->paint(painter,rect);
+    }
+    if (m->legendPosManager) {
+        m->legend->setPos(m->legendPosManager->legendPos());
+        if (m->legend->visible()) {
+            m->legend->paint(painter);
+        }
     }
     painter->restore();
 }

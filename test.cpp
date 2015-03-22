@@ -34,13 +34,8 @@ int main(int argc, char *argv[])
         y2[k] = y1[k] + 0.2*y1[k]*cos(10.0*x[k]);
     }
 
-    QslXYPlot samplesPlot(
-        "Samples", x, y2,
-        Qt::red, QslXYPlot::Circles);
-
-    QslXYPlot modelPlot(
-        "Model", x, y1,
-        Qt::blue, QslXYPlot::Line);
+    QslXYPlot samplesPlot("Samples", x, y2, Qt::red, QslXYPlot::Circles);
+    QslXYPlot modelPlot("Model", x, y1, Qt::blue, QslXYPlot::Line);
 
     QslRectScale scale;
     scale.axis(QslXYAxis::TopAxis)->setName("Samples and model");

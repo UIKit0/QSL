@@ -19,6 +19,7 @@
 
 #include "qsl_xyaxis.h"
 #include "qsl_rectscale.h"
+#include "qsl_chart.h"
 #include <QtGui>
 
 
@@ -48,7 +49,7 @@ public:
 QslXYAxis::QslXYAxis(Component component,
                      const QString &name,
                      QslRectScale *scale) :
-    QslPlot(name),
+    QslPlot(name,scale->chart()),
     m(new Private(this))
 {
     setScale(scale);

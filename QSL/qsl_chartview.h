@@ -17,8 +17,8 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSL_CHARTWIDGET_H
-#define QSL_CHARTWIDGET_H
+#ifndef QSL_CHARTVIEW_H
+#define QSL_CHARTVIEW_H
 
 #include <QWidget>
 #include "qsl_chart.h"
@@ -55,4 +55,4 @@ private:
     Q_DISABLE_COPY(QslChartView)
 };
 
-#endif // QslChartView_H
+#endif // QSL_CHARTVIEW_H

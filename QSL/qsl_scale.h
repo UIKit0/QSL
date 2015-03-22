@@ -60,6 +60,8 @@ public slots:
     virtual void paint(QPainter *painter,
                        const QRect &rect);
 
+    virtual QPoint legendPos() const = 0;
+
     virtual void update() = 0;
 
 private:

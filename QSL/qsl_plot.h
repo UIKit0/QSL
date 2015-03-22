@@ -17,8 +17,8 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSL_PLOTABLE_H
-#define QSL_PLOTABLE_H
+#ifndef QSL_PLOT_H
+#define QSL_PLOT_H
 
 #include "qsl_global.h"
 
@@ -28,17 +28,19 @@ QT_END_NAMESPACE
 
 class QslChart;
 class QslScale;
+class QslChartLegend;
 
 class QSL_API QslPlot : public QObject
 {
     Q_OBJECT
+    Q_CLASSINFO("author", "Elvis M. Teixeira")
     Q_PROPERTY(QString name READ name WRITE setName)
     Q_PROPERTY(bool visible READ visible WRITE setVisible)
 
 public:
 
     QslPlot(const QString &name,
-                QObject *parent = 0);
+            QObject *parent = 0);
 
     virtual ~QslPlot();
 
@@ -74,6 +76,8 @@ protected:
 
     virtual void paint(QPainter *painter) = 0;
 
+    friend class QslChartLegend;
+
     virtual void paintThumb(const QPoint &pos,
                             QPainter *painter);
 
@@ -87,4 +91,4 @@ private:
     Q_DISABLE_COPY(QslPlot)
 };
 
-#endif // QSL_PLOTABLE_H
+#endif // QSL_PLOT_H

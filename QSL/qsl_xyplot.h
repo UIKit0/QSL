@@ -31,7 +31,6 @@ class QSL_API QslXYPlot : public QslRectPlot
     Q_OBJECT
     Q_CLASSINFO("author", "Elvis M. Teixeira")
     Q_PROPERTY(Scatter scatter READ scatter WRITE setScatter)
-    Q_ENUMS(Scatter)
 
 public:
 
@@ -67,6 +66,8 @@ public slots:
 protected:
 
     virtual void paint(QPainter *painter);
+
+    virtual void paintThumb(const QPoint &pos, QPainter *painter);
 
     void paintLine(QPainter *painter);
 

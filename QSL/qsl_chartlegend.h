@@ -17,49 +17,45 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSL_RECTPLOT_H
-#define QSL_RECTPLOT_H
+#ifndef QSL_CHARTLEGEND_H
+#define QSL_CHARTLEGEND_H
 
 #include "qsl_plot.h"
 
-class QslRectScale;
-
-class QSL_API QslRectPlot : public QslPlot
+class QSL_API QslChartLegend: public QslPlot
 {
     Q_OBJECT
     Q_CLASSINFO("author", "Elvis M. Teixeira")
 
 public:
 
-    QslRectPlot(const QString &name,
-                QObject *parent = 0);
+    enum Position
+    {
+        TopLeft,
+        TopRight,
+        BottomLeft,
+        BottomRight
+    };
 
-    virtual ~QslRectPlot();
 
-    double xMin() const;
-    double xMax() const;
-    double yMin() const;
-    double yMax() const;
+    QslChartLegend(QslChart *chart);
 
-    void setXmin(double x);
-    void setXmax(double x);
-    void setYmin(double y);
-    void setYmax(double y);
+    virtual ~QslChartLegend();
+
+    Position positionFlag() const;
+
+    void setPos(const QPoint &pos);
+    void setPos(int x, int y) { setPos(QPoint(x,y)); }
 
 protected:
 
-    friend class QslRectScale;
-
-    virtual void paint(QPainter *painter) = 0;
-
-    virtual void paintThumb(const QPoint &pos, QPainter *painter);
-
-    QPoint legendPosition() const;
+    friend class QslChart;
+    virtual void paint(QPainter *painter);
 
 private:
 
     QSL_PRIVATE_DECLS
-    Q_DISABLE_COPY(QslRectPlot)
+    Q_DISABLE_COPY(QslChartLegend)
 };
 
-#endif // QSL_RECTPLOT_H
+#endif // QSL_CHARTLEGEND_H

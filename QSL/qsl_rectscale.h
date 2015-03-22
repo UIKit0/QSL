@@ -70,6 +70,10 @@ public slots:
 
     void setYbound(int low, int up);
 
+protected:
+
+    QPoint legendPos() const;
+
 private:
 
     QSL_PRIVATE_DECLS

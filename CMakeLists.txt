@@ -1,11 +1,10 @@
 project(QSL)
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8.11)
 
-find_package(Qt4 REQUIRED)
-add_definitions(${QT_DEFINITIONS})
 add_definitions(-DQSL_BUILD)
-include(${QT_USE_FILE})
-include_directories(${CMAKE_SOURCE_DIR})
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+find_package(Qt5Widgets)
 
 set(QSL_HDRS
     QSL/qsl_global.h
@@ -36,10 +35,8 @@ set(QSL_SRCS
     QSL/qsl_chartlegend.cpp
 )
 
-qt4_wrap_cpp(QSL_MOC_SRCS ${QSL_QOBJ_HDRS})
-
 add_library(QSL SHARED ${QSL_SRCS} ${QSL_MOC_SRCS})
-target_link_libraries(QSL ${QT_LIBRARIES})
+target_link_libraries(QSL Qt5::Widgets)
 
 add_executable(qslTest test.cpp)
 target_link_libraries(qslTest QSL)

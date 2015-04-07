@@ -37,6 +37,10 @@ public:
 
     QList<QslXYAxis*>& axis();
     const QList<QslXYAxis*>& axis() const;
+    
+    void add(QslRectPlot *plot);
+    
+    void add(QslRectPlot &plot) { add(&plot); }
 
     int mapX(double x) const;
     int mapY(double y) const;

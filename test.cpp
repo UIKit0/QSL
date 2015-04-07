@@ -19,6 +19,26 @@
 
 #include <QApplication>
 #include <QSL/qsl_chartview.h>
+#include <QSL/qsl_worldview.h>
+
+class World: public QslWorldView
+{
+    void present() {
+        static double x = 0.0;
+        static double step = 0.01;
+
+        pen(Qt::blue);
+        line(0,0,x,0.5);
+        pen(Qt::red);
+        brush(Qt::green);
+        ellipse(x,0.5,40,40);
+        pen(Qt::black);
+        text(x,0.6,"HELLO QSL!");
+
+        x += step;
+        if (x > 1.0 || x < 0.0) step = -step;
+    }
+};
 
 
 int main(int argc, char *argv[])
@@ -49,6 +69,9 @@ int main(int argc, char *argv[])
     chartView.chart()->add(scale);
     chartView.chart()->save("figure.png");
     chartView.show();
+
+    World world;
+    world.animate();
 
     return app.exec();
 }

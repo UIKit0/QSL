@@ -192,8 +192,8 @@ void QslXYPlot::paintThumb(const QPoint &pos,
 
     switch (m->scatter) {
     case Line:
-        painter->drawLine(pos.x()-10, pos.y()-4,
-                          pos.x()+10, pos.y()-4);
+        painter->drawLine(pos.x()-6, pos.y()-4,
+                          pos.x()+6, pos.y()-4);
         painter->drawText(pos.x() + 15, pos.y(), name());
         break;
     case Circles:

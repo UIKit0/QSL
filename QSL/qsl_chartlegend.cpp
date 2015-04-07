@@ -29,8 +29,8 @@ public:
 
     Private(QslChartLegend *qq) :
         p(qq),
-        pen(Qt::black),
-        brush(QColor(245,245,245)) {}
+        pen(Qt::NoPen),
+        brush(Qt::white) {}
 
     void setupDraw(QFontMetrics *fm);
 

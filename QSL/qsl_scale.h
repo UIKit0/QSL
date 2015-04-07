@@ -47,10 +47,6 @@ public:
     QList<QslPlot*>& plots();
     const QList<QslPlot*>& plots() const;
 
-    void add(QslPlot *plot);
-
-    void add(QslPlot &plot) { add(&plot); }
-
 public slots:
 
     friend class QslChart;
@@ -63,6 +59,12 @@ public slots:
     virtual QPoint legendPos() const = 0;
 
     virtual void update() = 0;
+    
+protected:
+    
+    void add(QslPlot *plot);
+    
+    void add(QslPlot &plot) { add(&plot); }
 
 private:
 

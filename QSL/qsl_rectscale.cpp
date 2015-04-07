@@ -69,6 +69,12 @@ QslRectScale::~QslRectScale()
 }
 
 
+void QslRectScale::add(QslRectPlot *plot)
+{
+    QslScale::add(plot);
+}
+
+
 QslXYAxis* QslRectScale::axis(QslXYAxis::Component c) const
 {
     foreach (QslXYAxis *axis, m->axis) {

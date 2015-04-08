@@ -21,6 +21,9 @@
 #define QSL_VECTOR_H
 
 #include "qsl_global.h"
+#ifdef QSL_DEBUG
+# include <QDebug>
+#endif //QSL_DEBUG
 
 template <typename T>
 class QslVector
@@ -44,8 +47,19 @@ public:
 
     qint32 size() const { return m_size; }
 
-    T& operator[] (qint32 k) { return m_data[k]; }
-    const T& operator[] (qint32 k) const { return m_data[k]; }
+    inline T& operator[] (qint32 k) {
+        #ifdef QSL_DEBUG
+        if (k<0 || k>=m_size) qDebug() << "Array index out of range";
+        #endif //QSL_DEBUG
+        return m_data[k];
+    }
+
+    inline const T& operator[] (qint32 k) const {
+        #ifdef QSL_DEBUG
+        if (k<0 || k>=m_size) qDebug() << "Array index out of range";
+        #endif //QSL_DEBUG
+        return m_data[k];
+    }
 
     void alloc(qint32 n);
 

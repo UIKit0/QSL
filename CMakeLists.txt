@@ -1,5 +1,5 @@
 project(QSL)
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 2.8)
 
 add_definitions(-DQSL_BUILD)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)

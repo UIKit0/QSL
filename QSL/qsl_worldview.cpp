@@ -177,6 +177,12 @@ void QslWorldView::text(double x, double y, const QString &txt)
 }
 
 
+void QslWorldView::point(double x, double y)
+{
+    m->painter.drawPoint(mapX(x),mapY(y));
+}
+
+
 void QslWorldView::antialias(bool on)
 {
     m->painter.setRenderHint(QPainter::Antialiasing, on);

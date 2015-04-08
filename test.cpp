@@ -23,6 +23,10 @@
 
 class World: public QslWorldView
 {
+public:
+
+    World() : QslWorldView("Moving shapes") {}
+
     void present() {
         static double x = 0.0;
         static double step = 0.01;
@@ -33,7 +37,7 @@ class World: public QslWorldView
         brush(Qt::green);
         ellipse(x,0.5,40,40);
         pen(Qt::black);
-        text(x,0.6,"HELLO QSL!");
+        text(x,0.55,"HELLO QSL!");
 
         x += step;
         if (x > 1.0 || x < 0.0) step = -step;
@@ -46,26 +50,24 @@ int main(int argc, char *argv[])
     QApplication app(argc,argv);
 
     const int N = 500;
-    QslVector<double> x(N), y1(N), y2(N);
+    QslVector<double> x(N), y(N);
     int k;
     for (k=0; k<N; k++) {
         x[k] = -5.0 + (10.0/N)*k;
-        y1[k] = exp(-x[k]*x[k]);
-        y2[k] = y1[k] + 0.2*y1[k]*cos(10.0*x[k]);
+        double g = exp(-x[k]*x[k]);
+        y[k] = g + 0.2*g*cos(10.0*x[k]);
     }
 
-    QslXYPlot samplesPlot("Samples", x, y2, Qt::red, QslXYPlot::Circles);
-    QslXYPlot modelPlot("Model", x, y1, Qt::blue, QslXYPlot::Line);
+    QslXYPlot samplesPlot("Legend", x, y, Qt::red, QslXYPlot::Circles);
 
     QslRectScale scale;
-    scale.axis(QslXYAxis::TopAxis)->setName("Samples and model");
+    scale.axis(QslXYAxis::TopAxis)->setName("Noisy gaussian");
     scale.axis(QslXYAxis::LeftAxis)->setName("Intensity");
     scale.axis(QslXYAxis::BottomAxis)->setName("Phase");
 
     scale.add(samplesPlot);
-    scale.add(modelPlot);
 
-    QslChartView chartView;
+    QslChartView chartView("QSL Chart");
     chartView.chart()->add(scale);
     chartView.chart()->save("figure.png");
     chartView.show();

@@ -61,8 +61,7 @@ public:
 
 public slots:
 
-    virtual void paint(QPainter *painter,
-                       const QRect &rect);
+    virtual void paint(QPainter *painter, const QRect &rect);
 
     virtual void update();
 

@@ -59,11 +59,10 @@ public:
     void pen(Qt::GlobalColor c, int width=1);
     void brush(Qt::GlobalColor c);
     void line(double x1,double y1, double x2,double y2);
-    void line(const Qsl::Vec2D &v1, const Qsl::Vec2D &v2) { line(v1.x(),v1.y(),v2.x(),v2.y()); }
     void ellipse(double x, double y, double width, double height);
-    void ellipse(const Qsl::Vec2D &v, double width, double height) { ellipse(v.x(),v.y(),width,height); }
     void rectangle(double x, double y, double width, double height);
     void text(double x, double y, const QString &txt);
+    void point(double x, double y);
     void antialias(bool on);
 
 protected:

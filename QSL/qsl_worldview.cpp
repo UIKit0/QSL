@@ -156,10 +156,13 @@ void QslWorldView::line(double x1,double y1, double x2,double y2)
 }
 
 
-void QslWorldView::ellipse(double x1,double y1, double width, double height)
+void QslWorldView::ellipse(double x,double y, double width, double height)
 {
-    m->painter.drawEllipse(mapX(x1)-width/2,mapY(y1)-height/2,
-                            width, height);
+    int xc = mapX(x);
+    int yc = mapY(y);
+    int mw = mapX(x+width) - xc;
+    int mh = mapY(y+height) - yc;
+    m->painter.drawEllipse(xc-mw/2, yc-mh/2, mw, mh);
 }
 
 

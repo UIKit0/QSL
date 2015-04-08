@@ -30,15 +30,13 @@ public:
     void present() {
         static double x = 0.0;
         static double step = 0.01;
-
-        pen(Qt::blue);
-        line(0,0,x,0.5);
         pen(Qt::red);
         brush(Qt::green);
-        ellipse(x,0.5,40,40);
+        ellipse(x,0.5,0.2,0.4);
+        pen(Qt::blue);
+        line(0,0,x,0.5);
         pen(Qt::black);
         text(x,0.55,"HELLO QSL!");
-
         x += step;
         if (x > 1.0 || x < 0.0) step = -step;
     }

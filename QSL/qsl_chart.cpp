@@ -42,7 +42,7 @@ QslChart::QslChart(QObject *parent) :
     m(new Private)
 {
     m->legend = new QslChartLegend(this);
-    m->font = QFont("Times", 11);
+    m->font = QFont("Monospace", 10);
     m->backBrush = QBrush(Qt::white);
     m->paintBack = true;
     m->legendPosManager = 0;

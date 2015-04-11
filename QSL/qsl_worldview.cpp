@@ -144,9 +144,21 @@ void QslWorldView::pen(Qt::GlobalColor c, int width)
 }
 
 
+void QslWorldView::pen(const QPen &pen)
+{
+    m->painter.setPen(pen);
+}
+
+
 void QslWorldView::brush(Qt::GlobalColor c)
 {
     m->painter.setBrush(QBrush(c));
+}
+
+
+void QslWorldView::brush(const QBrush &brush)
+{
+    m->painter.setBrush(brush);
 }
 
 

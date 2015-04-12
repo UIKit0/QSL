@@ -10,6 +10,7 @@ include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
 
 set(QSL_PUB_HDRS
+    headers/QslVector
     headers/QslWorldView
     headers/QslChartView
 )

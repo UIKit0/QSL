@@ -76,6 +76,10 @@ private:
 };
 
 
+typedef QslVector<double> QslRealVec;
+typedef QslVector<int> QslIntVec;
+
+
 template <typename T>
 inline QslVector<T>::QslVector() :
     m_data(0),
@@ -105,7 +109,8 @@ inline QslVector<T>::QslVector(const QVector<T> &qVec) :
 
 
 template <typename T>
-inline QslVector<T>& QslVector<T>::operator= (const QslVector<T> &that)
+inline QslVector<T>&
+QslVector<T>::operator= (const QslVector<T> &that)
 {
     if (m_data == that.m_data)
         return *this;

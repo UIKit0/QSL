@@ -51,6 +51,9 @@ QslWorldView::QslWorldView(const QString &title,
     setXRange(0.0,1.0);
     setYRange(0.0,1.0);
     connect(&m->timer, SIGNAL(timeout()), this, SLOT(repaint()));
+#ifdef QSL_DARK_STYLE
+    setBackBrush(Qt::black);
+#endif // QSL_DARK_STYLE
 }
 
 
@@ -132,6 +135,9 @@ void QslWorldView::paintEvent(QPaintEvent*)
     m->widthPix = width();
     m->heightPix = height();
     m->painter.begin(this);
+#ifdef QSL_DARK_STYLE
+    m->painter.setPen(QPen(Qt::green));
+#endif // QSL_DARK_STYLE
     m->painter.fillRect(rect(),m->backBrush);
     present();
     m->painter.end();

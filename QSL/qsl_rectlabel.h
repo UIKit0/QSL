@@ -17,47 +17,38 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSL_RECTPLOT_H
-#define QSL_RECTPLOT_H
+#ifndef QSL_RECTLABEL_H
+#define QSL_RECTLABEL_H
 
-#include "qsl_plot.h"
+#include "qsl_rectplot.h"
 
-class QslRectScale;
-
-class QSL_API QslRectPlot : public QslPlot
+class QSL_API QslRectLabel : public QslRectPlot
 {
     Q_OBJECT
     Q_CLASSINFO("author", "Elvis M. Teixeira")
-
+    
 public:
-
-    QslRectPlot(const QString &name,
-                QObject *parent = 0);
-
-    virtual ~QslRectPlot();
-
-    double xMin() const;
-    double xMax() const;
-    double yMin() const;
-    double yMax() const;
-
-    void setXmin(double x);
-    void setXmax(double x);
-    void setYmin(double y);
-    void setYmax(double y);
-
+    
+    QslRectLabel(double x, double y,
+                 const QString &text,
+                 QObject *parent = 0);
+    
+    ~QslRectLabel();
+    
+    QString text() const;
+    
+    void setText(const QString &text);
+    
+    QPen pen() const;
+    
 protected:
-
-    friend class QslRectScale;
-
-    virtual void paint(QPainter *painter) = 0;
-
-    virtual void paintThumb(const QPoint &pos, QPainter *painter);
-
+    
+    virtual void paint(QPainter *painter);
+    
 private:
 
     QSL_PRIVATE_DECLS
-    Q_DISABLE_COPY(QslRectPlot)
+    Q_DISABLE_COPY(QslRectLabel)
 };
 
-#endif // QSL_RECTPLOT_H
+#endif // QSL_RECTLABEL_H

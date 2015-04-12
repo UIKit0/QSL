@@ -17,50 +17,35 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSL_XYAXIS_H
-#define QSL_XYAXIS_H
+#ifndef QSL_CHARTLABEL_H
+#define QSL_CHARTLABEL_H
 
-#include "qsl_plot.h"
+#include "qsl_rectplot.h"
+#include "qsl_rectscale.h"
+#include <QColor>
 
-class QslRectScale;
 
-class QSL_API QslXYAxis : public QslPlot
+class QSL_API QslChartLabel : public QslPlot
 {
     Q_OBJECT
     Q_CLASSINFO("author", "Elvis M. Teixeira")
-
+    
 public:
-
-    enum Component
-    {
-        TopAxis,
-        BottomAxis,
-        LeftAxis,
-        RightAxis,
-        Grid
-    };
-
-
-    QslXYAxis(Component component,
-              const QString &name,
-              QslRectScale *scale);
-
-    ~QslXYAxis();
-
-    Component component() const;
-
-    void setPen(const QPen &pen);
-
-protected:
-
-    friend class QslRectScale;
-
-    virtual void paint(QPainter *painter);
-
+    
+    QslChartLabel(const QString &text, QObject *parent=0);
+    
+    ~QslChartLabel();
+    
+    QString text() const;
+    
+    void setText(const QString &text);
+    
+    QPen pen() const;
+    
 private:
-
+    
     QSL_PRIVATE_DECLS
-    Q_DISABLE_COPY(QslXYAxis)
+    Q_DISABLE_COPY(QslChartLabel)
 };
 
-#endif // QSL_XYAXIS_H
+#endif // QSL_CHARTLABEL_H

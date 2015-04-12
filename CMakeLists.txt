@@ -25,9 +25,10 @@ set(QSL_HDRS
     QSL/qsl_chartview.h
     QSL/qsl_plot.h
     QSL/qsl_rectplot.h
-    QSL/qsl_xyaxis.h
-    QSL/qsl_xyplot.h
+    QSL/qsl_rectaxis.h
+    QSL/qsl_graphplot.h
     QSL/qsl_chartlegend.h
+    QSL/qsl_rectlabel.h
 )
 
 set(QSL_SRCS
@@ -38,9 +39,10 @@ set(QSL_SRCS
     QSL/qsl_rectplot.cpp
     QSL/qsl_rectscale.cpp
     QSL/qsl_scale.cpp
-    QSL/qsl_xyaxis.cpp
-    QSL/qsl_xyplot.cpp
+    QSL/qsl_rectaxis.cpp
+    QSL/qsl_graphplot.cpp
     QSL/qsl_chartlegend.cpp
+    QSL/qsl_rectlabel.cpp
 )
 
 add_library(QSL SHARED ${QSL_SRCS} ${QSL_MOC_SRCS})

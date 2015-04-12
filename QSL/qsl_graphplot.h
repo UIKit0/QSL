@@ -17,8 +17,8 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSL_XYPLOT_H
-#define QSL_XYPLOT_H
+#ifndef QSL_GRAPHPLOT_H
+#define QSL_GRAPHPLOT_H
 
 #include "qsl_rectplot.h"
 #include "qsl_rectscale.h"
@@ -26,7 +26,7 @@
 #include <QColor>
 
 
-class QSL_API QslXYPlot : public QslRectPlot
+class QSL_API QslGraphPlot : public QslRectPlot
 {
     Q_OBJECT
     Q_CLASSINFO("author", "Elvis M. Teixeira")
@@ -40,7 +40,7 @@ public:
         Circles
     };
 
-    QslXYPlot(const QString &name,
+    QslGraphPlot(const QString &name,
               const QslVector<double> &x,
               const QslVector<double> &y,
               const QColor &color = Qt::blue,
@@ -48,7 +48,7 @@ public:
               QObject *parent = 0);
 
 
-    ~QslXYPlot();
+    ~QslGraphPlot();
 
     Scatter scatter() const;
 
@@ -78,7 +78,7 @@ protected:
 private:
 
     QSL_PRIVATE_DECLS
-    Q_DISABLE_COPY(QslXYPlot)
+    Q_DISABLE_COPY(QslGraphPlot)
 };
 
-#endif // QSL_XYPLOT_H
+#endif // QSL_GRAPHPLOT_H

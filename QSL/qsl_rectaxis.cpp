@@ -17,17 +17,17 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "qsl_xyaxis.h"
+#include "qsl_rectaxis.h"
 #include "qsl_rectscale.h"
 #include "qsl_chart.h"
 #include <QtGui>
 
 
-class QslXYAxis::Private
+class QslRectAxis::Private
 {
 public:
 
-    Private(QslXYAxis *axis) : p(axis) {}
+    Private(QslRectAxis *axis) : p(axis) {}
 
     void setupPaint(QslRectScale *scale);
     void paintTop(QPainter *painter, QFontMetrics *fm, QslRectScale *scale);
@@ -42,44 +42,48 @@ public:
     int divNum;
     int length;
 
-    QslXYAxis *p;
+    QslRectAxis *p;
 };
 
 
-QslXYAxis::QslXYAxis(Component component,
+QslRectAxis::QslRectAxis(Component component,
                      const QString &name,
                      QslRectScale *scale) :
     QslPlot(name,scale->chart()),
     m(new Private(this))
 {
     setScale(scale);
+#ifdef QSL_DARK_STYLE
+    m->pen.setColor(Qt::white);
+#endif // QSL_DARK_STYLE
     m->component = component;
     if (component == Grid) {
         m->pen.setWidthF(0.5);
-        m->pen.setStyle(Qt::DashLine);
+        m->pen.setColor(Qt::gray);
+        m->pen.setStyle(Qt::DashDotLine);
     }
 }
 
 
-QslXYAxis::~QslXYAxis()
+QslRectAxis::~QslRectAxis()
 {
     delete m;
 }
 
 
-QslXYAxis::Component QslXYAxis::component() const
+QslRectAxis::Component QslRectAxis::component() const
 {
     return m->component;
 }
 
 
-void QslXYAxis::setPen(const QPen &pen)
+void QslRectAxis::setPen(const QPen &pen)
 {
     m->pen = pen;
 }
 
 
-void QslXYAxis::Private::setupPaint(QslRectScale *scale)
+void QslRectAxis::Private::setupPaint(QslRectScale *scale)
 {
     switch (component) {
     case TopAxis:
@@ -110,7 +114,7 @@ void QslXYAxis::Private::setupPaint(QslRectScale *scale)
 }
 
 
-void QslXYAxis::paint(QPainter *painter)
+void QslRectAxis::paint(QPainter *painter)
 {
     QslRectScale *scale = (QslRectScale*) this->scale();
     QFontMetrics fm = painter->fontMetrics();
@@ -138,7 +142,7 @@ void QslXYAxis::paint(QPainter *painter)
 }
 
 
-void QslXYAxis::Private::paintTop(QPainter *painter,
+void QslRectAxis::Private::paintTop(QPainter *painter,
                                   QFontMetrics *fm,
                                   QslRectScale *scale)
 {
@@ -165,12 +169,12 @@ void QslXYAxis::Private::paintTop(QPainter *painter,
     }
     txtWid = fm->width(p->name());
     x = scale->xMinPix() + (scale->widthPix() - txtWid)/2;
-    y = y - 3*txtHei;
+    y = y - 3.33*txtHei;
     painter->drawText(x, y, p->name());
 }
 
 
-void QslXYAxis::Private::paintBottom(QPainter *painter,
+void QslRectAxis::Private::paintBottom(QPainter *painter,
                                      QFontMetrics *fm,
                                      QslRectScale *scale)
 {
@@ -197,12 +201,12 @@ void QslXYAxis::Private::paintBottom(QPainter *painter,
     }
     txtWid = fm->width(p->name());
     x = scale->xMinPix() + (scale->widthPix() - txtWid)/2;
-    y = y + 4*txtHei;
+    y = y + 4.33*txtHei;
     painter->drawText(x, y, p->name());
 }
 
 
-void QslXYAxis::Private::paintLeft(QPainter *painter,
+void QslRectAxis::Private::paintLeft(QPainter *painter,
                                    QFontMetrics *fm,
                                    QslRectScale *scale)
 {
@@ -232,13 +236,13 @@ void QslXYAxis::Private::paintLeft(QPainter *painter,
     painter->rotate(-90.0);
     txtWid = fm->width(p->name());
     x = -scale->yMinPix() - (scale->heightPix() + txtWid)/2;
-    y = scale->xMinPix() - maxTxtWid - 2*txtHei;
+    y = scale->xMinPix() - maxTxtWid - 2.33*txtHei;
     painter->drawText(x,y,p->name());
     painter->restore();
 }
 
 
-void QslXYAxis::Private::paintRight(QPainter *painter,
+void QslRectAxis::Private::paintRight(QPainter *painter,
                                     QFontMetrics *fm,
                                     QslRectScale *scale)
 {
@@ -268,13 +272,13 @@ void QslXYAxis::Private::paintRight(QPainter *painter,
     painter->rotate(-90.0);
     txtWid = fm->width(p->name());
     x = -scale->yMinPix() - (scale->heightPix() + txtWid)/2;
-    y = scale->xMaxPix() + maxTxtWid + 3*txtHei;
+    y = scale->xMaxPix() + maxTxtWid + 3.33*txtHei;
     painter->drawText(x,y,p->name());
     painter->restore();
 }
 
 
-void QslXYAxis::Private::paintGrid(QPainter *painter,
+void QslRectAxis::Private::paintGrid(QPainter *painter,
                                     QslRectScale *scale)
 {
     // vertical lines
@@ -307,4 +311,4 @@ void QslXYAxis::Private::paintGrid(QPainter *painter,
     }
 }
 
-// qsl_xyaxis.cpp
+// qsl_rectaxis.cpp

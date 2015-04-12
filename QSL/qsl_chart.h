@@ -21,14 +21,14 @@
 #define QSL_CHART_H
 
 #include "qsl_global.h"
+// rect plots
+#include "qsl_rectscale.h"
+#include "qsl_rectlabel.h"
+#include "qsl_graphplot.h"
 
 QT_BEGIN_NAMESPACE
 class QPainter;
 QT_END_NAMESPACE
-
-class QslScale;
-class QslPlot;
-class QslChartLegend;
 
 class QSL_API QslChart : public QObject
 {

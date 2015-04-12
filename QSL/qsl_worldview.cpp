@@ -180,9 +180,11 @@ void QslWorldView::ellipse(double x,double y, double width, double height)
 
 void QslWorldView::rectangle(double x, double y, double width, double height)
 {
-    double xp = mapX(x);
-    double yp = mapY(y+height);
-    m->painter.drawRect(xp,yp,mapX(x+width)-xp,mapY(y)-yp);
+    int mx = mapX(x);
+    int my = mapY(y+height);
+    int mw = mapX(x+width) - mx;
+    int mh = my - mapY(y);
+    m->painter.drawRect(mx, my, mw, mh);
 }
 
 

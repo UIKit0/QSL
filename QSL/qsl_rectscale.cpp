@@ -28,7 +28,7 @@ class QslRectScale::Private
 {
 public:
 
-    QList<QslXYAxis*> axis;
+    QList<QslRectAxis*> axis;
 
     double xMin, xMax;
     double yMin, yMax;
@@ -48,12 +48,11 @@ QslRectScale::QslRectScale(const QString &name,
     QslScale(name,chart),
     m(new Private)
 {
-    m->axis.append( new QslXYAxis(QslXYAxis::TopAxis, "QSL Chart", this));
-    m->axis.append( new QslXYAxis(QslXYAxis::BottomAxis, "X", this));
-    m->axis.append( new QslXYAxis(QslXYAxis::LeftAxis, "Y", this));
-    m->axis.append( new QslXYAxis(QslXYAxis::RightAxis, "", this));
-    m->axis.append( new QslXYAxis(QslXYAxis::Grid, "Grid", this));
-    axis(QslXYAxis::Grid)->setVisible(false);
+    m->axis.append( new QslRectAxis(QslRectAxis::TopAxis, "QSL Chart", this));
+    m->axis.append( new QslRectAxis(QslRectAxis::BottomAxis, "X", this));
+    m->axis.append( new QslRectAxis(QslRectAxis::LeftAxis, "Y", this));
+    m->axis.append( new QslRectAxis(QslRectAxis::RightAxis, "", this));
+    m->axis.append( new QslRectAxis(QslRectAxis::Grid, "Grid", this));
     m->xLowBound = m->xUpBound = 80.0;
     m->yLowBound = m->yUpBound = 60.0;
     update();
@@ -62,7 +61,7 @@ QslRectScale::QslRectScale(const QString &name,
 
 QslRectScale::~QslRectScale()
 {
-    foreach (QslXYAxis *axis, m->axis) {
+    foreach (QslRectAxis *axis, m->axis) {
         delete axis;
     }
     delete m;
@@ -75,9 +74,9 @@ void QslRectScale::add(QslRectPlot *plot)
 }
 
 
-QslXYAxis* QslRectScale::axis(QslXYAxis::Component c) const
+QslRectAxis* QslRectScale::axis(QslRectAxis::Component c) const
 {
-    foreach (QslXYAxis *axis, m->axis) {
+    foreach (QslRectAxis *axis, m->axis) {
         if (axis->component() == c)
             return axis;
     }
@@ -85,13 +84,13 @@ QslXYAxis* QslRectScale::axis(QslXYAxis::Component c) const
 }
 
 
-QList<QslXYAxis *>& QslRectScale::axis()
+QList<QslRectAxis *>& QslRectScale::axis()
 {
     return m->axis;
 }
 
 
-const QList<QslXYAxis*>& QslRectScale::axis() const
+const QList<QslRectAxis*>& QslRectScale::axis() const
 {
     return m->axis;
 }
@@ -134,7 +133,7 @@ void QslRectScale::paint(QPainter *painter, const QRect &rect)
     painter->restore();
 
     // paint frame
-    foreach (QslXYAxis *axis, m->axis) {
+    foreach (QslRectAxis *axis, m->axis) {
         if (axis->visible()) {
             axis->paint(painter);
         }

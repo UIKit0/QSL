@@ -34,4 +34,6 @@
     class Private;        \
     Private *const m;
 
+//#define QSL_DARK_STYLE 1
+
 #endif // QSL_GLOBAL_H

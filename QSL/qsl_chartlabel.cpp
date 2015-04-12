@@ -17,39 +17,54 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSL_CHARTVIEW_H
-#define QSL_CHARTVIEW_H
-
-#include <QWidget>
-#include "qsl_chart.h"
+#include "qsl_chartlabel.h"
 
 
-class QSL_API QslChartView : public QWidget
+class QslChartLabel::Private
 {
-    Q_OBJECT
-    Q_CLASSINFO("author", "Elvis M. Teixeira")
-
 public:
-
-    // default
-    QslChartView(const QString &title="QSL",
-                   int width=600, int height=450,
-                   QWidget *parent = 0);
     
-    explicit QslChartView(QWidget *parent);
-
-    ~QslChartView();
-
-    QslChart* chart() const;
-
-public slots:
-
-    virtual void paintEvent(QPaintEvent *event);
-
-private:
-
-    QSL_PRIVATE_DECLS
-    Q_DISABLE_COPY(QslChartView)
+    QString text;
+    QPen pen;
 };
 
-#endif // QSL_CHARTVIEW_H
+
+QslChartLabel::QslChartLabel(const QString &text,
+                             QObject *parent) :
+    QslPlot(text,parent),
+    m(new Private)
+{
+    m->text = text;
+#ifdef QSL_DARK_STYLE
+    m->pen.setColor(Qt::white);
+#endif // QSL_DARK_STYLE
+}
+
+
+QslChartLabel::~QslChartLabel()
+{
+    delete m;
+}
+
+
+QString QslChartLabel::text() const
+{
+    return m->text;
+}
+
+
+void QslChartLabel::setText(const QString &text)
+{
+    if (m->text != text) {
+        m->text = text;
+        emit appearenceChange(this);
+    }
+}
+
+
+QPen QslChartLabel::pen() const
+{
+    return m->pen;
+}
+
+// qsl_chartlabel.cpp

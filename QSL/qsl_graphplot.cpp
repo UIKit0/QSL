@@ -17,7 +17,7 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "qsl_xyplot.h"
+#include "qsl_graphplot.h"
 #include <QtGui>
 
 #define SYMBRAD 2
@@ -25,18 +25,18 @@
 #define TWOSYMBRADSQR 16
 
 
-class QslXYPlot::Private
+class QslGraphPlot::Private
 {
 public:
 
-    QslXYPlot::Scatter scatter;
+    QslGraphPlot::Scatter scatter;
     QslVector<double> x, y;
     QPen pen;
     bool antialias;
 };
 
 
-QslXYPlot::QslXYPlot(const QString &name,
+QslGraphPlot::QslGraphPlot(const QString &name,
                      const QslVector<double> &x,
                      const QslVector<double> &y,
                      const QColor &color,
@@ -49,25 +49,24 @@ QslXYPlot::QslXYPlot(const QString &name,
     m->scatter = scatter;
     setData(x,y);
     m->pen.setColor(color);
-    m->pen.setWidth(2);
-    m->antialias = true;
+    m->antialias = false;
     setHasThumb(true);
 }
 
 
-QslXYPlot::~QslXYPlot()
+QslGraphPlot::~QslGraphPlot()
 {
     delete m;
 }
 
 
-QslXYPlot::Scatter QslXYPlot::scatter() const
+QslGraphPlot::Scatter QslGraphPlot::scatter() const
 {
     return m->scatter;
 }
 
 
-void QslXYPlot::setData(const QslVector<double> &x,
+void QslGraphPlot::setData(const QslVector<double> &x,
                         const QslVector<double> &y)
 {
     m->x = x;
@@ -77,7 +76,7 @@ void QslXYPlot::setData(const QslVector<double> &x,
 }
 
 
-void QslXYPlot::updateData(const QslVector<double> &x,
+void QslGraphPlot::updateData(const QslVector<double> &x,
                            const QslVector<double> &y)
 {
     m->x = x;
@@ -86,7 +85,7 @@ void QslXYPlot::updateData(const QslVector<double> &x,
 }
 
 
-void QslXYPlot::setScatter(Scatter scatter)
+void QslGraphPlot::setScatter(Scatter scatter)
 {
     if (m->scatter != scatter) {
         m->scatter = scatter;
@@ -95,7 +94,7 @@ void QslXYPlot::setScatter(Scatter scatter)
 }
 
 
-void QslXYPlot::paint(QPainter *painter)
+void QslGraphPlot::paint(QPainter *painter)
 {
     painter->setPen(m->pen);
     painter->setRenderHint(
@@ -112,7 +111,7 @@ void QslXYPlot::paint(QPainter *painter)
 }
 
 
-void QslXYPlot::paintLine(QPainter *painter)
+void QslGraphPlot::paintLine(QPainter *painter)
 {
     QslRectScale *scale =
             static_cast<QslRectScale*>(this->scale());
@@ -139,7 +138,7 @@ void QslXYPlot::paintLine(QPainter *painter)
 }
 
 
-void QslXYPlot::paintCircles(QPainter *painter)
+void QslGraphPlot::paintCircles(QPainter *painter)
 {
     QslRectScale *scale =
             static_cast<QslRectScale*>(this->scale());
@@ -166,7 +165,7 @@ void QslXYPlot::paintCircles(QPainter *painter)
 }
 
 
-void QslXYPlot::checkRanges()
+void QslGraphPlot::checkRanges()
 {
     double xi = m->x[0], xf = m->x[0];
     double yi = m->y[0], yf = m->y[0];
@@ -183,7 +182,7 @@ void QslXYPlot::checkRanges()
 }
 
 
-void QslXYPlot::paintThumb(const QPoint &pos,
+void QslGraphPlot::paintThumb(const QPoint &pos,
                            QPainter *painter)
 {
     painter->setPen(m->pen);

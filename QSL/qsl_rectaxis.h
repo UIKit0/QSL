@@ -17,47 +17,50 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSL_RECTPLOT_H
-#define QSL_RECTPLOT_H
+#ifndef QSL_XYAXIS_H
+#define QSL_XYAXIS_H
 
 #include "qsl_plot.h"
 
 class QslRectScale;
 
-class QSL_API QslRectPlot : public QslPlot
+class QSL_API QslRectAxis : public QslPlot
 {
     Q_OBJECT
     Q_CLASSINFO("author", "Elvis M. Teixeira")
 
 public:
 
-    QslRectPlot(const QString &name,
-                QObject *parent = 0);
+    enum Component
+    {
+        TopAxis,
+        BottomAxis,
+        LeftAxis,
+        RightAxis,
+        Grid
+    };
 
-    virtual ~QslRectPlot();
 
-    double xMin() const;
-    double xMax() const;
-    double yMin() const;
-    double yMax() const;
+    QslRectAxis(Component component,
+              const QString &name,
+              QslRectScale *scale);
 
-    void setXmin(double x);
-    void setXmax(double x);
-    void setYmin(double y);
-    void setYmax(double y);
+    ~QslRectAxis();
+
+    Component component() const;
+
+    void setPen(const QPen &pen);
 
 protected:
 
     friend class QslRectScale;
 
-    virtual void paint(QPainter *painter) = 0;
-
-    virtual void paintThumb(const QPoint &pos, QPainter *painter);
+    virtual void paint(QPainter *painter);
 
 private:
 
     QSL_PRIVATE_DECLS
-    Q_DISABLE_COPY(QslRectPlot)
+    Q_DISABLE_COPY(QslRectAxis)
 };
 
-#endif // QSL_RECTPLOT_H
+#endif // QSL_XYAXIS_H

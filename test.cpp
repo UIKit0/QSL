@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
         yc.append(cos(x[k]));
     }
 
-    QslGraphPlot sinPlot("Sine", x, ys, Qt::red);
+    QslGraphPlot sinPlot("Sine", x, ys, Qt::red, QslGraphPlot::Circles);
     QslGraphPlot cosPlot("Cossine", x, yc, Qt::blue);
 
     QslRectScale scale;
@@ -38,3 +38,4 @@ int main(int argc, char *argv[])
 
     return app.exec();
 }
+

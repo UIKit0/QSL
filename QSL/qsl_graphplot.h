@@ -52,6 +52,9 @@ public:
 
     Scatter scatter() const;
 
+    void setPen(const QPen &pen);
+
+    void setBrush(const QBrush &brush);
 
 public slots:
 

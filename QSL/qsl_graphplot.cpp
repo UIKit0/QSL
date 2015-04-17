@@ -32,16 +32,17 @@ public:
     QslGraphPlot::Scatter scatter;
     QslVector<double> x, y;
     QPen pen;
+    QBrush brush;
     bool antialias;
 };
 
 
 QslGraphPlot::QslGraphPlot(const QString &name,
-                     const QslVector<double> &x,
-                     const QslVector<double> &y,
-                     const QColor &color,
-                     Scatter scatter,
-                     QObject *parent) :
+                           const QslVector<double> &x,
+                           const QslVector<double> &y,
+                           const QColor &color,
+                           Scatter scatter,
+                           QObject *parent) :
     QslRectPlot(name,parent),
     m(new Private)
 {
@@ -49,6 +50,7 @@ QslGraphPlot::QslGraphPlot(const QString &name,
     m->scatter = scatter;
     setData(x,y);
     m->pen.setColor(color);
+    m->brush = QBrush(color);
     m->antialias = false;
     setHasThumb(true);
 }
@@ -63,6 +65,20 @@ QslGraphPlot::~QslGraphPlot()
 QslGraphPlot::Scatter QslGraphPlot::scatter() const
 {
     return m->scatter;
+}
+
+
+void QslGraphPlot::setPen(const QPen &pen)
+{
+    m->pen = pen;
+    emit appearenceChange(this);
+}
+
+
+void QslGraphPlot::setBrush(const QBrush &brush)
+{
+    m->brush = brush;
+    emit appearenceChange(this);
 }
 
 
@@ -96,10 +112,6 @@ void QslGraphPlot::setScatter(Scatter scatter)
 
 void QslGraphPlot::paint(QPainter *painter)
 {
-    painter->setPen(m->pen);
-    painter->setRenderHint(
-                QPainter::Antialiasing, m->antialias);
-
     switch (m->scatter) {
     case Line:
         paintLine(painter);
@@ -113,8 +125,12 @@ void QslGraphPlot::paint(QPainter *painter)
 
 void QslGraphPlot::paintLine(QPainter *painter)
 {
+    painter->setPen(m->pen);
+    m->brush = Qt::NoBrush;
+    painter->setBrush(Qt::NoBrush);
+    painter->setRenderHint(QPainter::Antialiasing, m->antialias);
     QslRectScale *scale =
-            static_cast<QslRectScale*>(this->scale());
+        static_cast<QslRectScale*>(this->scale());
 
     int x1 = scale->mapX(m->x[0]);
     int y1 = scale->mapY(m->y[0]);
@@ -140,6 +156,9 @@ void QslGraphPlot::paintLine(QPainter *painter)
 
 void QslGraphPlot::paintCircles(QPainter *painter)
 {
+    painter->setPen(m->pen);
+    painter->setBrush(m->brush);
+    painter->setRenderHint(QPainter::Antialiasing, m->antialias);
     QslRectScale *scale =
             static_cast<QslRectScale*>(this->scale());
 
@@ -186,8 +205,8 @@ void QslGraphPlot::paintThumb(const QPoint &pos,
                            QPainter *painter)
 {
     painter->setPen(m->pen);
-    painter->setRenderHint(
-                QPainter::Antialiasing, m->antialias);
+    painter->setBrush(m->brush);
+    painter->setRenderHint(QPainter::Antialiasing, m->antialias);
 
     switch (m->scatter) {
     case Line:

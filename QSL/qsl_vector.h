@@ -49,14 +49,14 @@ public:
 
     inline T& operator[] (qint32 k) {
         #ifdef QSL_DEBUG
-        if (k<0 || k>=m_size) qDebug() << "Array index out of range";
+        if (k<0 || k>=m_size) qDebug() << "QslVector index out of range";
         #endif //QSL_DEBUG
         return m_data[k];
     }
 
     inline const T& operator[] (qint32 k) const {
         #ifdef QSL_DEBUG
-        if (k<0 || k>=m_size) qDebug() << "Array index out of range";
+        if (k<0 || k>=m_size) qDebug() << "QslVector index out of range";
         #endif //QSL_DEBUG
         return m_data[k];
     }
@@ -76,8 +76,8 @@ private:
 };
 
 
-typedef QslVector<double> QslRealVec;
-typedef QslVector<int> QslIntVec;
+typedef QslVector<double> QslRvector;
+typedef QslVector<int> QslIvector;
 
 
 template <typename T>

@@ -216,6 +216,7 @@ void QslRectScale::setXrange(double xi, double xf)
 {
     m->xMin = xi;
     m->xMax = xf;
+    m->width = m->xMax - m->xMin;
 }
 
 
@@ -223,6 +224,7 @@ void QslRectScale::setYrange(double yi, double yf)
 {
     m->yMin = yi;
     m->yMax = yf;
+    m->height = m->yMax - m->yMin;
 }
 
 

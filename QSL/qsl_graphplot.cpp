@@ -28,7 +28,14 @@
 class QslGraphPlot::Private
 {
 public:
+    
+    Private(QslGraphPlot *plot) : q(plot) {}
+    
+    void paintLine(QPainter *painter, QslRectScale *scale);
+    void paintCircles(QPainter *painter, QslRectScale *scale);
+    void checkRanges();
 
+    QslGraphPlot *q;
     QslGraphPlot::Scatter scatter;
     QslVector<double> x, y;
     QPen pen;
@@ -44,7 +51,7 @@ QslGraphPlot::QslGraphPlot(const QString &name,
                            Scatter scatter,
                            QObject *parent) :
     QslRectPlot(name,parent),
-    m(new Private)
+    m(new Private(this))
 {
     setScalable(true);
     m->scatter = scatter;
@@ -83,17 +90,17 @@ void QslGraphPlot::setBrush(const QBrush &brush)
 
 
 void QslGraphPlot::setData(const QslVector<double> &x,
-                        const QslVector<double> &y)
+                           const QslVector<double> &y)
 {
     m->x = x;
     m->y = y;
-    checkRanges();
+    m->checkRanges();
     emit dataChange(this);
 }
 
 
 void QslGraphPlot::updateData(const QslVector<double> &x,
-                           const QslVector<double> &y)
+                              const QslVector<double> &y)
 {
     m->x = x;
     m->y = y;
@@ -112,33 +119,36 @@ void QslGraphPlot::setScatter(Scatter scatter)
 
 void QslGraphPlot::paint(QPainter *painter)
 {
+    QslRectScale *scale = static_cast<QslRectScale*>(this->scale());
+    
     switch (m->scatter) {
     case Line:
-        paintLine(painter);
+        m->paintLine(painter, scale);
         break;
     case Circles:
-        paintCircles(painter);
+        m->paintCircles(painter, scale);
         break;
     }
 }
 
 
-void QslGraphPlot::paintLine(QPainter *painter)
+void QslGraphPlot::Private::paintLine(QPainter *painter,
+                                      QslRectScale *scale)
 {
-    painter->setPen(m->pen);
-    m->brush = Qt::NoBrush;
+    painter->setPen(pen);
+    brush = Qt::NoBrush;
     painter->setBrush(Qt::NoBrush);
-    painter->setRenderHint(QPainter::Antialiasing, m->antialias);
-    QslRectScale *scale =
-        static_cast<QslRectScale*>(this->scale());
+    painter->setRenderHint(QPainter::Antialiasing, antialias);
 
-    int x1 = scale->mapX(m->x[0]);
-    int y1 = scale->mapY(m->y[0]);
+    int x1 = scale->mapX(x[0]);
+    int y1 = scale->mapY(y[0]);
+    int n = x.size();
     QPainterPath path;
+    
     path.moveTo(x1,y1);
-    for (int i=1; i<m->x.size(); i++) {
-        int x2 = scale->mapX(m->x[i]);
-        int y2 = scale->mapY(m->y[i]);
+    for (int i=1; i<n; i++) {
+        int x2 = scale->mapX(x[i]);
+        int y2 = scale->mapY(y[i]);
 
         int dx = x2 - x1;
         int dy = y2 - y1;
@@ -154,21 +164,21 @@ void QslGraphPlot::paintLine(QPainter *painter)
 }
 
 
-void QslGraphPlot::paintCircles(QPainter *painter)
+void QslGraphPlot::Private::paintCircles(QPainter *painter,
+                                         QslRectScale *scale)
 {
-    painter->setPen(m->pen);
-    painter->setBrush(m->brush);
-    painter->setRenderHint(QPainter::Antialiasing, m->antialias);
-    QslRectScale *scale =
-            static_cast<QslRectScale*>(this->scale());
+    painter->setPen(pen);
+    painter->setBrush(brush);
+    painter->setRenderHint(QPainter::Antialiasing, antialias);
 
-    int x1 = scale->mapX(m->x[0]);
-    int y1 = scale->mapY(m->y[0]);
+    int x1 = scale->mapX(x[0]);
+    int y1 = scale->mapY(y[0]);
+    int n = x.size();
     painter->drawEllipse(x1-SYMBRAD, y1-SYMBRAD,
                          TWOSYMBRAD, TWOSYMBRAD);
-    for (int i=1; i<m->x.size(); i++) {
-        int x2 = scale->mapX(m->x[i]);
-        int y2 = scale->mapY(m->y[i]);
+    for (int i=1; i<n; i++) {
+        int x2 = scale->mapX(x[i]);
+        int y2 = scale->mapY(y[i]);
 
         int dx = x2 - x1;
         int dy = y2 - y1;
@@ -184,20 +194,20 @@ void QslGraphPlot::paintCircles(QPainter *painter)
 }
 
 
-void QslGraphPlot::checkRanges()
+void QslGraphPlot::Private::checkRanges()
 {
-    double xi = m->x[0], xf = m->x[0];
-    double yi = m->y[0], yf = m->y[0];
-    for (int i=1; i<m->x.size(); i++) {
-        if (m->x[i] < xi) xi = m->x[i];
-        if (m->x[i] > xf) xf = m->x[i];
-        if (m->y[i] < yi) yi = m->y[i];
-        if (m->y[i] > yf) yf = m->y[i];
+    double xi = x[0], xf = x[0];
+    double yi = y[0], yf = y[0];
+    for (int i=1; i<x.size(); i++) {
+        if (x[i] < xi) xi = x[i];
+        if (x[i] > xf) xf = x[i];
+        if (y[i] < yi) yi = y[i];
+        if (y[i] > yf) yf = y[i];
     }
-    setXmin(xi);
-    setXmax(xf);
-    setYmin(yi);
-    setYmax(yf);
+    q->setXmin(xi);
+    q->setXmax(xf);
+    q->setYmin(yi);
+    q->setYmax(yf);
 }
 
 

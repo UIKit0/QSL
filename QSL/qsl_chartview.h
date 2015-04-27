@@ -31,9 +31,8 @@ class QSL_API QslChartView : public QWidget
 
 public:
 
-    // default
     QslChartView(const QString &title="QSL",
-                   int width=600, int height=450,
+                   int width=500, int height=350,
                    QWidget *parent = 0);
     
     explicit QslChartView(QWidget *parent);

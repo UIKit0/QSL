@@ -48,11 +48,11 @@ QslRectScale::QslRectScale(const QString &name,
     QslScale(name,chart),
     m(new Private)
 {
+    m->axis.append( new QslRectAxis(QslRectAxis::Grid, "Grid", this));
     m->axis.append( new QslRectAxis(QslRectAxis::TopAxis, "QSL Chart", this));
     m->axis.append( new QslRectAxis(QslRectAxis::BottomAxis, "X", this));
     m->axis.append( new QslRectAxis(QslRectAxis::LeftAxis, "Y", this));
     m->axis.append( new QslRectAxis(QslRectAxis::RightAxis, "", this));
-    m->axis.append( new QslRectAxis(QslRectAxis::Grid, "Grid", this));
     m->xLowBound = m->xUpBound = 80.0;
     m->yLowBound = m->yUpBound = 60.0;
     update();
@@ -242,18 +242,76 @@ void QslRectScale::setYbound(int low, int up)
 }
 
 
-double QslRectScale::xMin() const { return m->xMin; }
-double QslRectScale::xMax() const { return m->xMax; }
-double QslRectScale::yMin() const { return m->yMin; }
-double QslRectScale::yMax() const { return m->yMax; }
-double QslRectScale::width() const { return m->width; }
-double QslRectScale::height() const { return m->height; }
+double QslRectScale::xMin() const
+{
+    return m->xMin;
+}
 
-int QslRectScale::xMinPix() const { return m->xMinPix; }
-int QslRectScale::xMaxPix() const { return m->xMaxPix; }
-int QslRectScale::yMinPix() const { return m->yMinPix; }
-int QslRectScale::yMaxPix() const { return m->yMaxPix; }
-int QslRectScale::widthPix() const { return m->widthPix; }
-int QslRectScale::heightPix() const { return m->heightPix; }
+
+double QslRectScale::xMax() const
+{
+    return m->xMax;
+}
+
+
+double QslRectScale::yMin() const
+{
+    return m->yMin;
+}
+
+
+double QslRectScale::yMax() const
+{
+    return m->yMax;
+}
+
+
+double QslRectScale::width() const
+{
+    return m->width;
+}
+
+
+double QslRectScale::height() const
+{
+    return m->height;
+}
+
+
+
+int QslRectScale::xMinPix() const
+{
+    return m->xMinPix;
+}
+
+
+int QslRectScale::xMaxPix() const
+{
+    return m->xMaxPix;
+}
+
+
+int QslRectScale::yMinPix() const
+{
+    return m->yMinPix;
+}
+
+
+int QslRectScale::yMaxPix() const
+{
+    return m->yMaxPix;
+}
+
+
+int QslRectScale::widthPix() const
+{
+    return m->widthPix;
+}
+
+
+int QslRectScale::heightPix() const
+{
+    return m->heightPix;
+}
 
 /* qsl_rectscale.cpp */

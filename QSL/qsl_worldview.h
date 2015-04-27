@@ -58,16 +58,24 @@ public:
     
     void setBackBrush(Qt::GlobalColor c);
 
-    // DRAWING METHODS
     void pen(Qt::GlobalColor c, int width=1);
+    
     void pen(const QPen &pen);
+    
     void brush(Qt::GlobalColor c);
+    
     void brush(const QBrush &brush);
+    
     void line(double x1,double y1, double x2,double y2);
+    
     void ellipse(double x, double y, double width, double height);
+    
     void rectangle(double x, double y, double width, double height);
+    
     void text(double x, double y, const QString &txt);
+    
     void point(double x, double y);
+    
     void antialias(bool on);
 
 protected:

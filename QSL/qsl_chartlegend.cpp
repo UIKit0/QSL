@@ -54,9 +54,6 @@ QslChartLegend::QslChartLegend(QslChart *chart) :
     m->chart = chart;
     m->posFlag = TopRight;
     m->rect = QRect(0,0,100,100);
-#ifdef QSL_DARK_STYLE
-    m->brush.setColor(Qt::black);
-#endif // QSL_DARK_STYLE
 }
 
 

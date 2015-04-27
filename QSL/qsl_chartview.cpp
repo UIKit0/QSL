@@ -30,6 +30,7 @@ class QslChartView::Private
 public:
 
     QslChart chart;
+    QPainter painter;
 };
 
 
@@ -71,6 +72,7 @@ QslChart* QslChartView::chart() const
 void QslChartView::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event)
-    QPainter painter(this);
-    m->chart.paint(&painter, rect());
+    m->painter.begin(this);
+    m->chart.paint(&m->painter, rect());
+    m->painter.end();
 }

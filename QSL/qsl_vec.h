@@ -45,7 +45,7 @@ public:
     Vec2D operator* (double x) const { return Vec2D(_x*x,_y*x); }
     Vec2D operator/ (double x) const { return Vec2D(_x/x,_y/x); }
 
-    double lenSq() const { return _x*_x + _y*_y; }
+    double lenSqr() const { return _x*_x + _y*_y; }
     double len() const { return std::sqrt(_x*_x + _y*_y); }
 
     Vec2D& operator+= (const Vec2D &v) { _x+=v._x; _y+=v._y; return *this; }
@@ -82,7 +82,7 @@ public:
     Vec3D operator* (double x) const { return Vec3D(_x*x,_y*x,_z*x); }
     Vec3D operator/ (double x) const { return Vec3D(_x/x,_y/x,_z/x); }
     
-    double lenSq() const { return _x*_x + _y*_y + _z*_z; }
+    double lenSqr() const { return _x*_x + _y*_y + _z*_z; }
     double len() const { return std::sqrt(_x*_x + _y*_y + _z*_z); }
     
     Vec3D& operator+= (const Vec3D &v) { _x+=v._x; _y+=v._y; _z+=v._z; return *this; }

@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc,argv);
 
-    const int N = 200;
+    const int N = 40;
     const double step = 2*M_PI/N;
     QVector<double> x, ys, yc;
     

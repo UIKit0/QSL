@@ -72,12 +72,6 @@ protected:
 
     virtual void paintThumb(const QPoint &pos, QPainter *painter);
 
-    void paintLine(QPainter *painter);
-
-    void paintCircles(QPainter *painter);
-
-    void checkRanges();
-
 private:
 
     QSL_PRIVATE_DECLS

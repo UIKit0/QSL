@@ -47,15 +47,12 @@ public:
 
 
 QslRectAxis::QslRectAxis(Component component,
-                     const QString &name,
-                     QslRectScale *scale) :
+                         const QString &name,
+                         QslRectScale *scale) :
     QslPlot(name,scale->chart()),
     m(new Private(this))
 {
     setScale(scale);
-#ifdef QSL_DARK_STYLE
-    m->pen.setColor(Qt::white);
-#endif // QSL_DARK_STYLE
     m->component = component;
     if (component == Grid) {
         m->pen.setWidthF(0.5);
@@ -175,8 +172,8 @@ void QslRectAxis::Private::paintTop(QPainter *painter,
 
 
 void QslRectAxis::Private::paintBottom(QPainter *painter,
-                                     QFontMetrics *fm,
-                                     QslRectScale *scale)
+                                       QFontMetrics *fm,
+                                       QslRectScale *scale)
 {
     int x = scale->xMinPix();
     int y = scale->yMaxPix();
@@ -243,8 +240,8 @@ void QslRectAxis::Private::paintLeft(QPainter *painter,
 
 
 void QslRectAxis::Private::paintRight(QPainter *painter,
-                                    QFontMetrics *fm,
-                                    QslRectScale *scale)
+                                      QFontMetrics *fm,
+                                      QslRectScale *scale)
 {
     int x = scale->xMaxPix();
     int y = scale->yMaxPix();
@@ -279,7 +276,7 @@ void QslRectAxis::Private::paintRight(QPainter *painter,
 
 
 void QslRectAxis::Private::paintGrid(QPainter *painter,
-                                    QslRectScale *scale)
+                                     QslRectScale *scale)
 {
     // vertical lines
     length = scale->widthPix();

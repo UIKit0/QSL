@@ -19,6 +19,7 @@ set(QSL_PUB_HDRS
     headers/QslVector
     headers/QslWorldView
     headers/QslChartView
+    headers/QslChart
 )
 
 set(QSL_HDRS

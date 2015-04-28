@@ -34,8 +34,8 @@ class QSL_API QslWorldView: public QWidget
 
 public:
 
-    QslWorldView(const QString &title="QSL",
-                 int width=600, int height=450,
+    QslWorldView(const QString &title="Qsl",
+                 int width=500, int height=500,
                  QWidget *parent = 0);
 
     virtual ~QslWorldView();

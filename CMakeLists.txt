@@ -1,4 +1,4 @@
-project(QSL)
+project(Qsl)
 cmake_minimum_required(VERSION 2.8)
 
 add_definitions(-DQSL_BUILD)
@@ -9,6 +9,12 @@ find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
 
+include_directories(
+    ./Qsl
+    ./headers
+    ./build/
+)
+
 set(QSL_PUB_HDRS
     headers/QslVector
     headers/QslWorldView
@@ -16,42 +22,42 @@ set(QSL_PUB_HDRS
 )
 
 set(QSL_HDRS
-    QSL/qsl_global.h
-    QSL/qsl_vec.h
-    QSL/qsl_vector.h
-    QSL/qsl_rectscale.h
-    QSL/qsl_scale.h
-    QSL/qsl_worldview.h
-    QSL/qsl_chart.h
-    QSL/qsl_chartview.h
-    QSL/qsl_plot.h
-    QSL/qsl_rectplot.h
-    QSL/qsl_rectaxis.h
-    QSL/qsl_graphplot.h
-    QSL/qsl_chartlegend.h
-    QSL/qsl_rectlabel.h
+    Qsl/qsl_global.h
+    Qsl/qsl_vec.h
+    Qsl/qsl_vector.h
+    Qsl/qsl_rectscale.h
+    Qsl/qsl_scale.h
+    Qsl/qsl_worldview.h
+    Qsl/qsl_chart.h
+    Qsl/qsl_chartview.h
+    Qsl/qsl_plot.h
+    Qsl/qsl_rectplot.h
+    Qsl/qsl_rectaxis.h
+    Qsl/qsl_graphplot.h
+    Qsl/qsl_chartlegend.h
+    Qsl/qsl_rectlabel.h
 )
 
 set(QSL_SRCS
-    QSL/qsl_worldview.cpp
-    QSL/qsl_chart.cpp
-    QSL/qsl_chartview.cpp
-    QSL/qsl_plot.cpp
-    QSL/qsl_rectplot.cpp
-    QSL/qsl_rectscale.cpp
-    QSL/qsl_scale.cpp
-    QSL/qsl_rectaxis.cpp
-    QSL/qsl_graphplot.cpp
-    QSL/qsl_chartlegend.cpp
-    QSL/qsl_rectlabel.cpp
+    Qsl/qsl_worldview.cpp
+    Qsl/qsl_chart.cpp
+    Qsl/qsl_chartview.cpp
+    Qsl/qsl_plot.cpp
+    Qsl/qsl_rectplot.cpp
+    Qsl/qsl_rectscale.cpp
+    Qsl/qsl_scale.cpp
+    Qsl/qsl_rectaxis.cpp
+    Qsl/qsl_graphplot.cpp
+    Qsl/qsl_chartlegend.cpp
+    Qsl/qsl_rectlabel.cpp
 )
 
-add_library(QSL SHARED ${QSL_SRCS} ${QSL_MOC_SRCS})
-target_link_libraries(QSL ${QT_LIBRARIES})
+add_library(Qsl SHARED ${QSL_SRCS} ${QSL_MOC_SRCS})
+target_link_libraries(Qsl ${QT_LIBRARIES})
 
 add_executable(qslTest test.cpp)
-target_link_libraries(qslTest QSL)
+target_link_libraries(qslTest Qsl)
 
-install(TARGETS QSL DESTINATION /usr/lib)
-install(FILES ${QSL_HDRS} DESTINATION /usr/include/QSL)
-install(FILES ${QSL_PUB_HDRS} DESTINATION /usr/include/QSL)
+install(TARGETS Qsl DESTINATION /usr/lib)
+install(FILES ${QSL_HDRS} DESTINATION /usr/include/Qsl)
+install(FILES ${QSL_PUB_HDRS} DESTINATION /usr/include/Qsl)

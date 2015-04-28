@@ -51,9 +51,11 @@ QslWorldView::QslWorldView(const QString &title,
     setXRange(0.0,1.0);
     setYRange(0.0,1.0);
     connect(&m->timer, SIGNAL(timeout()), this, SLOT(repaint()));
-#ifdef QSL_DARK_STYLE
-    setBackBrush(Qt::black);
-#endif // QSL_DARK_STYLE
+    #ifdef QSL_DARK_STYLE
+    m->backBrush = QBrush(Qt::black);
+    #else
+    m->backBrush = QBrush(Qt::white);
+    #endif // QSL_DARK_STYLE
 }
 
 
@@ -189,20 +191,20 @@ void QslWorldView::rectangle(double x, double y, double width, double height)
     int mx = mapX(x);
     int my = mapY(y+height);
     int mw = mapX(x+width) - mx;
-    int mh = my - mapY(y);
+    int mh = mapY(y) - my;
     m->painter.drawRect(mx, my, mw, mh);
 }
 
 
 void QslWorldView::text(double x, double y, const QString &txt)
 {
-    m->painter.drawText(mapX(x),mapY(y),txt);
+    m->painter.drawText(mapX(x), mapY(y),txt);
 }
 
 
 void QslWorldView::point(double x, double y)
 {
-    m->painter.drawPoint(mapX(x),mapY(y));
+    m->painter.drawPoint(mapX(x), mapY(y));
 }
 
 
